@@ -24,7 +24,7 @@ Figure 4 (`pbl_all_rows_mean.pdf`), Figure 18 (`pbl_all_rows_max.pdf`), and Tabl
 
 Task 3.1 test set also contains IEEE 57 and GOC 500. CANOS-PF, GNS-S, PFNet, and NR numbers are taken from PFΔ, not retrained here.
 
-Pipeline: download a task → train/eval GENCO (three seeds) → aggregate → `make_latex_tables.py` fills GENCO rows from `results/` → `format_table_exponents.py` → barplots. PFNet / CANOS-PF / GNS / NR cells are hardcoded in `make_latex_tables.py`.
+Pipeline: download a task → train/eval GENCO (three seeds) → aggregate → `make_latex_tables.py` fills GENCO rows from `scripts/pfdelta/results/` → `format_table_exponents.py` → barplots. PFNet / CANOS-PF / GNS / NR cells are hardcoded in `make_latex_tables.py`.
 
 ## 1. Data
 
@@ -37,11 +37,11 @@ Optional, from raw PFΔ JSON: `pfdelta/batch_convert_pfdelta.py` then `pfdelta/b
 
 ## 2. Train
 
-Seeds: `scripts/config/HGNS_PF_pfdelta_bs64_seed{1,2,3}.yaml` (`seed` 0 / 42 / 1234). Same YAML for every task; only `--data_path` changes.
+Seeds: `scripts/pfdelta/config/HGNS_PF_pfdelta_bs64_seed{1,2,3}.yaml` (`seed` 0 / 42 / 1234). Same YAML for every task; only `--data_path` changes.
 
 ```bash
 gridfm_graphkit train \
-  --config scripts/config/HGNS_PF_pfdelta_bs64_seed1.yaml \
+  --config scripts/pfdelta/config/HGNS_PF_pfdelta_bs64_seed1.yaml \
   --data_path pfdelta_task4.3/case118 \
   --exp_name case118_task4.3 \
   --run_name bs64_same_norm_shuffle_train_paper_seed1
@@ -56,7 +56,7 @@ Eval from the paper checkpoints is not documented here yet (checkpoints are on a
 From the `genco-paper-repro-pfdelta` repo root:
 
 ```bash
-python aggregate_mlflow_metrics.py /path/to/mlflow/experiment --output results/4.3/metrics_summary
+python aggregate_mlflow_metrics.py /path/to/mlflow/experiment --output scripts/pfdelta/results/4.3/metrics_summary
 ```
 
 
@@ -71,7 +71,7 @@ pip install pandas matplotlib seaborn
 
 That is already included if you install graphkit from this branch (`pip install -e .`). Matplotlib is pulled in by seaborn.
 
-From the `genco-paper-repro-pfdelta` repo root, using [`scripts/pfdelta/`](https://github.com/gridfm/gridfm-graphkit/tree/genco-paper-repro-pfdelta/scripts/pfdelta). GENCO cells come from `results/<task>/metrics_summary.csv` (`PBE (Mean, p.u.) latex` / `PBE (Max, p.u.) latex`).
+From the `genco-paper-repro-pfdelta` repo root, using [`scripts/pfdelta/`](https://github.com/gridfm/gridfm-graphkit/tree/genco-paper-repro-pfdelta/scripts/pfdelta). GENCO cells come from `scripts/pfdelta/results/<task>/metrics_summary.csv` (`PBE (Mean, p.u.) latex` / `PBE (Max, p.u.) latex`).
 
 ```bash
 python scripts/pfdelta/make_latex_tables.py
@@ -92,6 +92,6 @@ Facts:
 
 - Paper checkpoints and MLflow runs live on a **cluster**, not in git or Hugging Face.
 - Graphkit helper with the old cluster layout: `generate_eval_commands.py` on `genco-paper-repro-pfdelta` (`MLFLOW_BASE=/dccstor/gridfm/mlflow_alban_pfdelta`, weights `artifacts/model/best_model_state_dict.epoch_99.pt`, run names `bs64_same_norm_shuffle_train_paper_seed{1,2,3}`).
-- `--config` is `scripts/config/HGNS_PF_pfdelta_bs64_seed{1,2,3}.yaml`; `--data_path` is the HF task’s `case118/` folder.
+- `--config` is `scripts/pfdelta/config/HGNS_PF_pfdelta_bs64_seed{1,2,3}.yaml`; `--data_path` is the HF task’s `case118/` folder.
 - Do not document job launchers. One `evaluate` example plus where the `.pt` files are is enough.
 
