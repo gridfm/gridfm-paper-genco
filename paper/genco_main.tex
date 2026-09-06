@@ -1,0 +1,71 @@
+\input{_constants}
+\input{_keyfigures}
+\arxiv % \review OR \arxiv OR \cameraready  
+
+\pdfoutput=1
+\documentclass[10pt,twocolumn,letterpaper]{article}
+\input{iccv_header}
+
+\unless\ifarxiv \myexternaldocument{_supplementary} \fi
+
+\usepackage[table]{xcolor}
+\usepackage{etoolbox}
+\usepackage{pgf}
+
+\definecolor{high}{HTML}{76f013}  % the color for the highest number in your data set
+\definecolor{low}{HTML}{ec462e}  % the color for the lowest number in your data set
+\newcommand*{\opacity}{90}% here you can change the opacity of the background color!
+\newcommand*{\minval}{0.0}% define the minimum value on your data set
+\newcommand*{\maxval}{2.0}% define the maximum value in your data set!
+
+\begin{document}
+ 
+
+
+\title{\paperTitle}
+\author{\authorBlock}
+
+
+
+
+\twocolumn[{
+\maketitle
+
+\begin{center}
+\includegraphics[width=0.90\linewidth]{figures/intro/framework_figure.pdf}
+\captionof{figure}{Representation of \textcolor[HTML]{209138}{\genco}, our GEometric Neural Corrective Optimizer, within the GridFM development framework composed of \textcolor[HTML]{F79B25}{\graphkit} for neural solver training and evaluation, and \textcolor[HTML]{2596BE}{\datakit} for synthetic data generation. All three are released within the Linux Foundation for Energy OpenGridFM project and are available on \href{https://github.com/gridfm}{GitHub}. All datasets are available on \href{https://huggingface.co/gridfm/datasets}{Hugging Face}.}
+\label{fig:motivational_example}
+\end{center}
+
+
+}]
+
+\begingroup
+\renewcommand{\thefootnote}{*}
+\footnotetext{Corresponding authors: \texttt{\{apu,tbr\}@zurich.ibm.com}}
+\endgroup
+\setcounter{footnote}{0}
+\renewcommand{\thefootnote}{\arabic{footnote}}
+
+\input{00_abstract}
+\input{01_intro}
+\input{02_related}
+\input{03_data}
+\input{04_method}
+\input{05_experiments}
+\input{10_conclusion}
+
+% \clearpage
+{\small
+\bibliographystyle{ieeenat_fullname}
+\bibliography{11_references}
+}
+
+% \clearpage
+\onecolumn
+\appendix
+\input{12_appendix}
+% \ifarxiv \clearpage \appendix \input{12_appendix} \fi
+% \clearpage \appendix \input{12_appendix}
+
+\end{document}

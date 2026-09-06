@@ -1,0 +1,6 @@
+\newcommand{\maxpfspeedups}{30$\times$\xspace}%29.1× for genco tiny over AC-PF on case10k
+\newcommand{\maxopfspeedups}{85$\times$\xspace}%84.5× for genco small over AC-OPF. could be 150x if we used genco tiny on case2k and 250x if genco tiny on case10k
+\newcommand{\dcpfspeedupovergenco}{2$\times$\xspace}%Table 6
+%SE: it always returns a high-quality estimate even when WLS fails to converge.
+%SE: GENCO provides an alternative to DC-PF by predicting the full AC operating state, including voltage magnitudes and reactive power, while achieving active-power residuals comparable to DC-PF, up to 30× speedups over Newton–Raphson, at only 2× the runtime of DC-PF.
+%SCADA: The preliminary results on the SCADA data from Hydro-Québec indicate that pre-training on the synthetic data appears to be necessary for the model to perform well on real SCADA data. Training from scratch directly on the real SCADA data does not provide good results. We also achieve performance comparable to DC-PF.

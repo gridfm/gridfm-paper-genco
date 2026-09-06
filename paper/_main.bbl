@@ -1,0 +1,572 @@
+\begin{thebibliography}{76}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[{A. Hore and D. Ziou}(2010)]{AHore}
+{A. Hore and D. Ziou}.
+\newblock {Image quality metrics: PSNR vs. SSIM}.
+\newblock In \emph{Proc. 20th International Conference on Pattern Recognition
+  (ICPR), pp. 2366-2369}, 2010.
+
+\bibitem[Agency(2022)]{dem2022}
+European~Space Agency.
+\newblock Copernicus dem.
+\newblock \url{http://dx.doi.org/10.5270/ESA-c5d3d65}, 2022.
+
+\bibitem[Astruc et~al.(2024{\natexlab{a}})Astruc, Gonthier, Mallet, and
+  Landrieu]{astruc2024anysat}
+Guillaume Astruc, Nicolas Gonthier, Clement Mallet, and Loic Landrieu.
+\newblock Anysat: An earth observation model for any resolutions, scales, and
+  modalities.
+\newblock \emph{arXiv preprint arXiv:2412.14123}, 2024{\natexlab{a}}.
+
+\bibitem[Astruc et~al.(2024{\natexlab{b}})Astruc, Gonthier, Mallet, and
+  Landrieu]{astruc2024omnisat}
+Guillaume Astruc, Nicolas Gonthier, Clement Mallet, and Loic Landrieu.
+\newblock Omnisat: Self-supervised modality fusion for earth observation,
+  2024{\natexlab{b}}.
+
+\bibitem[Audebert et~al.(2017)Audebert, Le~Saux, and
+  Lefèvre]{audebert_joint_2017}
+Nicolas Audebert, Bertrand Le~Saux, and Sébastien Lefèvre.
+\newblock Joint {{Learning}} from {{Earth Observation}} and {{OpenStreetMap
+  Data}} to {{Get Faster Better Semantic Maps}}.
+\newblock In \emph{Proceedings of the {{IEEE Conference}} on {{Computer
+  Vision}} and {{Pattern Recognition Workshops}} ({{CVPRW}})}, pages
+  1552--1560, 2017.
+
+\bibitem[Blumenstiel et~al.(2025{\natexlab{a}})Blumenstiel, Braham, Albrecht,
+  Maurogiovanni, and Fraccaro]{blumenstiel2025ssl4eos12v11}
+Benedikt Blumenstiel, Nassim Ait~Ali Braham, Conrad~M Albrecht, Stefano
+  Maurogiovanni, and Paolo Fraccaro.
+\newblock {SSL4EOS12 v1.1 – A Multimodal, Multiseasonal Dataset for
+  Pretraining}.
+\newblock \emph{arXiv preprint arXiv:2503.00168}, 2025{\natexlab{a}}.
+
+\bibitem[Blumenstiel et~al.(2025{\natexlab{b}})Blumenstiel, Fraccaro, Marsocci,
+  Jakubik, Maurogiovanni, Czerkawski, Sedona, Cavallaro, Brunschwiler,
+  Bernabe-Moreno, and Longépé]{terramesh}
+Benedikt Blumenstiel, Paolo Fraccaro, Valerio Marsocci, Johannes Jakubik,
+  Stefano Maurogiovanni, Mikolaj Czerkawski, Rocco Sedona, Gabriele Cavallaro,
+  Thomas Brunschwiler, Juan Bernabe-Moreno, and Nicolas Longépé.
+\newblock Terramesh: A planetary mosaic of multimodal earth observation data.
+\newblock \emph{arXiv preprint arXiv:2504.11172}, 2025{\natexlab{b}}.
+
+\bibitem[Bommasani et~al.(2021)Bommasani, Hudson, Adeli, Altman, Arora, von
+  Arx, Bernstein, Bohg, Bosselut, Brunskill,
+  et~al.]{bommasani2021opportunities}
+Rishi Bommasani, Drew~A Hudson, Ehsan Adeli, Russ Altman, Simran Arora, Sydney
+  von Arx, Michael~S Bernstein, Jeannette Bohg, Antoine Bosselut, Emma
+  Brunskill, et~al.
+\newblock On the opportunities and risks of foundation models.
+\newblock \emph{arXiv preprint arXiv:2108.07258}, 2021.
+
+\bibitem[Bonafilia et~al.(2020)Bonafilia, Tellman, Anderson, and
+  Issenberg]{Bonafilia_2020_CVPR_Workshops}
+Derrick Bonafilia, Beth Tellman, Tyler Anderson, and Erica Issenberg.
+\newblock Sen1floods11: A georeferenced dataset to train and test deep learning
+  flood algorithms for sentinel-1.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition (CVPR) Workshops}, 2020.
+
+\bibitem[Bordes et~al.(2024)Bordes, Pang, Ajay, Li, Bardes, Petryk, Ma{\~n}as,
+  Lin, Mahmoud, Jayaraman, et~al.]{bordes2024introduction}
+Florian Bordes, Richard~Yuanzhe Pang, Anurag Ajay, Alexander~C Li, Adrien
+  Bardes, Suzanne Petryk, Oscar Ma{\~n}as, Zhiqiu Lin, Anas Mahmoud, Bargav
+  Jayaraman, et~al.
+\newblock An introduction to vision-language modeling.
+\newblock \emph{arXiv preprint arXiv:2405.17247}, 2024.
+
+\bibitem[Cao et~al.(2020)Cao, Gan, Cheng, Yu, Chen, and Liu]{cao2020behind}
+Jize Cao, Zhe Gan, Yu Cheng, Licheng Yu, Yen-Chun Chen, and Jingjing Liu.
+\newblock Behind the scene: Revealing the secrets of pre-trained
+  vision-and-language models.
+\newblock In \emph{Computer Vision--ECCV 2020: 16th European Conference,
+  Glasgow, UK, August 23--28, 2020, Proceedings, Part VI 16}, pages 565--580.
+  Springer, 2020.
+
+\bibitem[Cao et~al.(2024)Cao, Zhou, Ma, Ye, Cui, Tang, Cao, Liang, Wang, Rehg,
+  et~al.]{cao2024maplm}
+Xu Cao, Tong Zhou, Yunsheng Ma, Wenqian Ye, Can Cui, Kun Tang, Zhipeng Cao,
+  Kaizhao Liang, Ziran Wang, James~M Rehg, et~al.
+\newblock Maplm: A real-world large-scale vision-language benchmark for map and
+  traffic scene understanding.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 21819--21830, 2024.
+
+\bibitem[Chen and Bruzzone(2021)]{chen2021self}
+Yuxing Chen and Lorenzo Bruzzone.
+\newblock Self-supervised change detection in multi-view remote sensing images.
+\newblock \emph{arXiv preprint arXiv:2103.05969}, 2021.
+
+\bibitem[{Chenwei Wang, et al.}(2022. Online:
+  \url{http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9933645&tag=1})]{ChenweiWang}
+{Chenwei Wang, et al.}
+\newblock {SAR Target Image Generation Method Using Azimuth-Controllable
+  Generative Adversarial Network}.
+\newblock \emph{IEEE Journal of Selected Topics in Applied Earth Observations
+  and Remote Sensing (JSTARS), Vol. 15}, 2022. Online:
+  \url{http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9933645&tag=1}.
+
+\bibitem[Deuser et~al.(2023)Deuser, Habel, and Oswald]{deuser2023sample4geo}
+Fabian Deuser, Konrad Habel, and Norbert Oswald.
+\newblock Sample4geo: Hard negative sampling for cross-view geo-localisation.
+\newblock \emph{arXiv preprint arXiv:2303.11851}, 2023.
+
+\bibitem[Dimitrovski et~al.(2023)Dimitrovski, Kitanovski, Kocev, and
+  Simidjievski]{dimitrovski2023current}
+Ivica Dimitrovski, Ivan Kitanovski, Dragi Kocev, and Nikola Simidjievski.
+\newblock Current trends in deep learning for earth observation: An open-source
+  benchmark arena for image classification.
+\newblock \emph{ISPRS Journal of Photogrammetry and Remote Sensing},
+  197:\penalty0 18--35, 2023.
+
+\bibitem[Dosovitskiy et~al.(2021)Dosovitskiy, Beyer, Kolesnikov, Weissenborn,
+  Zhai, Unterthiner, Dehghani, Minderer, Heigold, Gelly, Uszkoreit, and
+  Houlsby]{dosovitskiy2021imageworth16x16words}
+Alexey Dosovitskiy, Lucas Beyer, Alexander Kolesnikov, Dirk Weissenborn,
+  Xiaohua Zhai, Thomas Unterthiner, Mostafa Dehghani, Matthias Minderer, Georg
+  Heigold, Sylvain Gelly, Jakob Uszkoreit, and Neil Houlsby.
+\newblock An image is worth 16x16 words: Transformers for image recognition at
+  scale, 2021.
+
+\bibitem[Driess et~al.(2023)Driess, Xia, Sajjadi, Lynch, Chowdhery, Wahid,
+  Tompson, Vuong, Yu, Huang, et~al.]{driess2023palm}
+Danny Driess, Fei Xia, Mehdi~SM Sajjadi, Corey Lynch, Aakanksha Chowdhery,
+  Ayzaan Wahid, Jonathan Tompson, Quan Vuong, Tianhe Yu, Wenlong Huang, et~al.
+\newblock Palm-e: An embodied multimodal language model.
+\newblock 2023.
+
+\bibitem[Durnov()]{durnov_xview2_2020}
+Victor Durnov.
+\newblock xview2 1st place solution.
+
+\bibitem[Etten et~al.(2019)Etten, Lindenbaum, and
+  Bacastow]{vanetten2019spacenet}
+Adam~Van Etten, Dave Lindenbaum, and Todd~M. Bacastow.
+\newblock Spacenet: A remote sensing dataset and challenge series, 2019.
+
+\bibitem[Fibaek et~al.(In Proc. Int Geoscience and Remote Sensing Symposium
+  (IGARSS), 2024)Fibaek, Camilleri, Luyts, Dionelis, and
+  Saux]{fibaek2024phileo}
+Casper Fibaek, Luke Camilleri, Andreas Luyts, Nikolaos Dionelis, and
+  Bertrand~Le Saux.
+\newblock {PhilEO Bench: Evaluating Geo-Spatial Foundation Models}, In Proc.
+  Int Geoscience and Remote Sensing Symposium (IGARSS), 2024.
+
+\bibitem[Francis(2024)]{francis2024sensor}
+Alistair Francis.
+\newblock Sensor independent cloud and shadow masking with partial labels and
+  multimodal inputs.
+\newblock \emph{IEEE Transactions on Geoscience and Remote Sensing}, 2024.
+
+\bibitem[Francis and Czerkawski(2024)]{francis2024major}
+Alistair Francis and Mikolaj Czerkawski.
+\newblock Major tom: Expandable datasets for earth observation.
+\newblock \emph{arXiv preprint arXiv:2402.12095}, 2024.
+
+\bibitem[Fu et~al.(2024)Fu, Dai, Luo, Li, Ren, Zhang, Wang, Zhou, Shen, Zhang,
+  et~al.]{fu2024video}
+Chaoyou Fu, Yuhan Dai, Yongdong Luo, Lei Li, Shuhuai Ren, Renrui Zhang, Zihan
+  Wang, Chenyu Zhou, Yunhang Shen, Mengdan Zhang, et~al.
+\newblock Video-mme: The first-ever comprehensive evaluation benchmark of
+  multi-modal llms in video analysis.
+\newblock \emph{arXiv preprint arXiv:2405.21075}, 2024.
+
+\bibitem[Fuller et~al.(2023)Fuller, Millard, and Green]{fuller2023croma}
+Anthony Fuller, Koreen Millard, and James~R. Green.
+\newblock Croma: Remote sensing representations with contrastive radar-optical
+  masked autoencoders, 2023.
+
+\bibitem[Garioud et~al.(2023)Garioud, Gonthier, Landrieu, Wit, Valette,
+  Poup{\'e}e, Giordano, and Wattrelos]{garioud2023flair}
+Anatol Garioud, Nicolas Gonthier, Loic Landrieu, Apolline~De Wit, Marion
+  Valette, Marc Poup{\'e}e, Sebastien Giordano, and Boris Wattrelos.
+\newblock {FLAIR} : a country-scale land cover semantic segmentation dataset
+  from multi-source optical imagery.
+\newblock In \emph{Thirty-seventh Conference on Neural Information Processing
+  Systems Datasets and Benchmarks Track}, 2023.
+
+\bibitem[Gomes et~al.(2025)Gomes, Wittmann, Robert, Jakubik, Reichelt, Martone,
+  Maurogiovanni, Vinge, Hurst, Scheurer, et~al.]{gomes2025lossy}
+Carlos Gomes, Isabelle Wittmann, Damien Robert, Johannes Jakubik, Tim Reichelt,
+  Michele Martone, Stefano Maurogiovanni, Rikard Vinge, Jonas Hurst, Erik
+  Scheurer, et~al.
+\newblock Lossy neural compression for geospatial analytics: A review.
+\newblock \emph{arXiv preprint arXiv:2503.01505}, 2025.
+
+\bibitem[Hafner et~al.(2022)Hafner, Ban, and Nascetti]{hafner2022unsupervised}
+Sebastian Hafner, Yifang Ban, and Andrea Nascetti.
+\newblock Unsupervised domain adaptation for global urban extraction using
+  sentinel-1 sar and sentinel-2 msi data.
+\newblock \emph{Remote Sensing of Environment}, 280:\penalty0 113192, 2022.
+
+\bibitem[Han et~al.(2024{\natexlab{a}})Han, Zhang, Shi, and
+  Reichstein]{han2024bridging}
+Boran Han, Shuai Zhang, Xingjian Shi, and Markus Reichstein.
+\newblock Bridging remote sensors with multisensor geospatial foundation
+  models, 2024{\natexlab{a}}.
+
+\bibitem[Han et~al.(2024{\natexlab{b}})Han, Cao, Poon, and
+  Navigli]{han2024multimodal}
+Soyeon~Caren Han, Feiqi Cao, Josiah Poon, and Roberto Navigli.
+\newblock Multimodal large language models and tunings: Vision, language,
+  sensors, audio, and beyond.
+\newblock In \emph{Proceedings of the 32nd ACM International Conference on
+  Multimedia}, pages 11294--11295, 2024{\natexlab{b}}.
+
+\bibitem[Jain et~al.(2024)Jain, Yang, and Shi]{jain2024vcoder}
+Jitesh Jain, Jianwei Yang, and Humphrey Shi.
+\newblock Vcoder: Versatile vision encoders for multimodal large language
+  models.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 27992--28002, 2024.
+
+\bibitem[Jakubik et~al.(2023)Jakubik, Roy, Phillips, Fraccaro, Godwin,
+  Zadrozny, Szwarcman, Gomes, Nyirjesy, Edwards, Kimura, Simumba, Chu,
+  Mukkavilli, Lambhate, Das, Bangalore, Oliveira, Muszynski, Ankur,
+  Ramasubramanian, Gurung, Khallaghi, Hanxi, Li, Cecil, Ahmadi, Kordi,
+  Alemohammad, Maskey, Ganti, Weldemariam, and
+  Ramachandran]{jakubik2023foundation}
+Johannes Jakubik, Sujit Roy, C.~E. Phillips, Paolo Fraccaro, Denys Godwin,
+  Bianca Zadrozny, Daniela Szwarcman, Carlos Gomes, Gabby Nyirjesy, Blair
+  Edwards, Daiki Kimura, Naomi Simumba, Linsong Chu, S.~Karthik Mukkavilli,
+  Devyani Lambhate, Kamal Das, Ranjini Bangalore, Dario Oliveira, Michal
+  Muszynski, Kumar Ankur, Muthukumaran Ramasubramanian, Iksha Gurung, Sam
+  Khallaghi, Hanxi, Li, Michael Cecil, Maryam Ahmadi, Fatemeh Kordi, Hamed
+  Alemohammad, Manil Maskey, Raghu Ganti, Kommy Weldemariam, and Rahul
+  Ramachandran.
+\newblock Foundation models for generalist geospatial artificial intelligence,
+  2023.
+
+\bibitem[Kenton and Toutanova(2019)]{kenton2019bert}
+Jacob Devlin Ming-Wei~Chang Kenton and Lee~Kristina Toutanova.
+\newblock Bert: Pre-training of deep bidirectional transformers for language
+  understanding.
+\newblock In \emph{Proceedings of naacL-HLT}, page~2. Minneapolis, Minnesota,
+  2019.
+
+\bibitem[Khanna et~al.(2023)Khanna, Liu, Zhou, Meng, Rombach, Burke, Lobell,
+  and Ermon]{khanna2023diffusionsat}
+Samar Khanna, Patrick Liu, Linqi Zhou, Chenlin Meng, Robin Rombach, Marshall
+  Burke, David Lobell, and Stefano Ermon.
+\newblock Diffusionsat: A generative foundation model for satellite imagery,
+  2023.
+
+\bibitem[{Kohei Arai, Michihiro Mikamo, and Shunsuke Onishi}(2023. Online:
+  \url{http://thesai.org/Downloads/Volume14No7/Paper_13-Method_for_Image_Quality_Evaluation_of_Satellite_based_SAR_Data.pdf})]{KoheiArai}
+{Kohei Arai, Michihiro Mikamo, and Shunsuke Onishi}.
+\newblock {Method for Image Quality Evaluation of Satellite-based SAR Data}.
+\newblock \emph{International Journal of Advanced Computer Science and
+  Applications (IJACSA), Vol. 14, No. 7}, 2023. Online:
+  \url{http://thesai.org/Downloads/Volume14No7/Paper_13-Method_for_Image_Quality_Evaluation_of_Satellite_based_SAR_Data.pdf}.
+
+\bibitem[Lahrichi et~al.(2025)Lahrichi, Sheng, Xia, Bradbury, and
+  Malof]{lahrichi2025self}
+Saad Lahrichi, Zion Sheng, Shufan Xia, Kyle Bradbury, and Jordan Malof.
+\newblock Is self-supervised pre-training on satellite imagery better than
+  imagenet? a systematic study with sentinel-2.
+\newblock \emph{arXiv preprint arXiv:2502.10669}, 2025.
+
+\bibitem[Li et~al.(2024{\natexlab{a}})Li, Zhang, Zhang, Guo, Zhang, Li, Zhang,
+  Liu, and Li]{li2024llavanext}
+Bo Li, Kaichen Zhang, Hao Zhang, Dong Guo, Renrui Zhang, Feng Li, Yuanhan
+  Zhang, Ziwei Liu, and Chunyuan Li.
+\newblock Llava-next: Stronger llms supercharge multimodal capabilities in the
+  wild, 2024{\natexlab{a}}.
+
+\bibitem[Li et~al.(2022)Li, Hong, Gao, Yao, Zheng, Zhang, and
+  Chanussot]{li2022deep}
+Jiaxin Li, Danfeng Hong, Lianru Gao, Jing Yao, Ke Zheng, Bing Zhang, and
+  Jocelyn Chanussot.
+\newblock Deep learning in multimodal remote sensing data fusion: A
+  comprehensive review.
+\newblock \emph{International Journal of Applied Earth Observation and
+  Geoinformation}, 112:\penalty0 102926, 2022.
+
+\bibitem[Li et~al.(2020)Li, Wan, Cheng, Meng, and Han]{li2020object}
+Ke Li, Gang Wan, Gong Cheng, Liqiu Meng, and Junwei Han.
+\newblock Object detection in optical remote sensing images: A survey and a new
+  benchmark.
+\newblock \emph{ISPRS journal of photogrammetry and remote sensing},
+  159:\penalty0 296--307, 2020.
+
+\bibitem[Li et~al.(2024{\natexlab{b}})Li, Wen, Hu, Yuan, and
+  Zhu]{li2024visionlanguage}
+Xiang Li, Congcong Wen, Yuan Hu, Zhenghang Yuan, and Xiao~Xiang Zhu.
+\newblock Vision-language models in remote sensing: Current progress and future
+  trends, 2024{\natexlab{b}}.
+
+\bibitem[Lin et~al.(2023)Lin, Yu, Kuang, Pathak, and
+  Ramanan]{lin2023multimodality}
+Zhiqiu Lin, Samuel Yu, Zhiyi Kuang, Deepak Pathak, and Deva Ramanan.
+\newblock Multimodality helps unimodality: Cross-modal few-shot learning with
+  multimodal models.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 19325--19337, 2023.
+
+\bibitem[Liu et~al.(2024)Liu, Chen, Guan, Zhou, Zhu, Ye, Fu, and
+  Zhou]{liu2024remoteclip}
+Fan Liu, Delong Chen, Zhangqingyun Guan, Xiaocong Zhou, Jiale Zhu, Qiaolin Ye,
+  Liyong Fu, and Jun Zhou.
+\newblock Remoteclip: A vision language foundation model for remote sensing,
+  2024.
+
+\bibitem[Liu et~al.(2022)Liu, Mao, Wu, Feichtenhofer, Darrell, and
+  Xie]{liu2022convnet2020s}
+Zhuang Liu, Hanzi Mao, Chao-Yuan Wu, Christoph Feichtenhofer, Trevor Darrell,
+  and Saining Xie.
+\newblock A convnet for the 2020s, 2022.
+
+\bibitem[Machado et~al.(2020)Machado, Ferreira, Nogueira, Oliveira, Brito,
+  Gama, and dos Santos]{machado2020airound}
+Gabriel Machado, Edemir Ferreira, Keiller Nogueira, Hugo Oliveira, Matheus
+  Brito, Pedro Henrique~Targino Gama, and Jefersson~Alex dos Santos.
+\newblock Airound and cv-brct: Novel multiview datasets for scene
+  classification.
+\newblock \emph{IEEE Journal of Selected Topics in Applied Earth Observations
+  and Remote Sensing}, 14:\penalty0 488--503, 2020.
+
+\bibitem[Mai et~al.(2022)Mai, Cundy, Choi, Hu, Lao, and Ermon]{visionpaper}
+Gengchen Mai, Chris Cundy, Kristy Choi, Yingjie Hu, Ni Lao, and Stefano Ermon.
+\newblock Towards a foundation model for geospatial artificial intelligence
+  (vision paper).
+\newblock In \emph{Proceedings of the 30th International Conference on Advances
+  in Geographic Information Systems}, New York, NY, USA, 2022. Association for
+  Computing Machinery.
+
+\bibitem[Manas et~al.(2021)Manas, Lacoste, Gir{\'o}-i Nieto, Vazquez, and
+  Rodriguez]{manas2021seasonal}
+Oscar Manas, Alexandre Lacoste, Xavier Gir{\'o}-i Nieto, David Vazquez, and Pau
+  Rodriguez.
+\newblock Seasonal contrast: Unsupervised pre-training from uncurated remote
+  sensing data.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, pages 9414--9423, 2021.
+
+\bibitem[Marimo et~al.(2025)Marimo, Blumenstiel, Nitsche, Jakubik, and
+  Brunschwiler]{marimo2025beyond}
+Clive~Tinashe Marimo, Benedikt Blumenstiel, Maximilian Nitsche, Johannes
+  Jakubik, and Thomas Brunschwiler.
+\newblock Beyond the visible: Multispectral vision-language learning for earth
+  observation.
+\newblock \emph{arXiv preprint arXiv:2503.15969}, 2025.
+
+\bibitem[Marsocci and Audebert(2024)]{marsocci2024crosssensor}
+Valerio Marsocci and Nicolas Audebert.
+\newblock Cross-sensor self-supervised training and alignment for remote
+  sensing, 2024.
+
+\bibitem[Marsocci et~al.(2024)Marsocci, Jia, Bellier, Kerekes, Zeng, Hafner,
+  Gerard, Brune, Yadav, Shibli, et~al.]{marsocci2024pangaea}
+Valerio Marsocci, Yuru Jia, Georges~Le Bellier, David Kerekes, Liang Zeng,
+  Sebastian Hafner, Sebastian Gerard, Eric Brune, Ritu Yadav, Ali Shibli,
+  et~al.
+\newblock Pangaea: A global and inclusive benchmark for geospatial foundation
+  models.
+\newblock \emph{arXiv preprint arXiv:2412.04204}, 2024.
+
+\bibitem[Mendieta et~al.(2023)Mendieta, Han, Shi, Zhu, Chen, and
+  Li]{mendieta2023gfm}
+Matias Mendieta, Boran Han, Xingjian Shi, Yi Zhu, Chen Chen, and Mu Li.
+\newblock Gfm: Building geospatial foundation models via continual pretraining.
+\newblock \emph{arXiv preprint arXiv:2302.04476}, 2023.
+
+\bibitem[Mentzer et~al.(2023)Mentzer, Minnen, Agustsson, and
+  Tschannen]{mentzer2023finite}
+Fabian Mentzer, David Minnen, Eirikur Agustsson, and Michael Tschannen.
+\newblock Finite scalar quantization: Vq-vae made simple.
+\newblock \emph{arXiv preprint arXiv:2309.15505}, 2023.
+
+\bibitem[Mizrahi et~al.(2023)Mizrahi, Bachmann, Kar, Yeo, Gao, Dehghan, and
+  Zamir]{mizrahi20234mmassivelymultimodalmasked}
+David Mizrahi, Roman Bachmann, Oğuzhan~Fatih Kar, Teresa Yeo, Mingfei Gao,
+  Afshin Dehghan, and Amir Zamir.
+\newblock 4m: Massively multimodal masked modeling, 2023.
+
+\bibitem[Nascetti et~al.(2023)Nascetti, YADAV, Brodt, Qu, Fan, Shendryk, Shah,
+  and Chung]{nascetti2023biomassters}
+Andrea Nascetti, RITU YADAV, Kirill Brodt, Qixun Qu, Hongwei Fan, Yuri
+  Shendryk, Isha Shah, and Christine Chung.
+\newblock Biomassters: A benchmark dataset for forest biomass estimation using
+  multi-modal satellite time-series.
+\newblock In \emph{Thirty-seventh Conference on Neural Information Processing
+  Systems Datasets and Benchmarks Track}, 2023.
+
+\bibitem[Nedungadi et~al.(2024)Nedungadi, Kariryaa, Oehmcke, Belongie, Igel,
+  and Lang]{nedungadi2024mmearth}
+Vishal Nedungadi, Ankit Kariryaa, Stefan Oehmcke, Serge Belongie, Christian
+  Igel, and Nico Lang.
+\newblock Mmearth: Exploring multi-modal pretext tasks for geospatial
+  representation learning.
+\newblock \emph{arXiv preprint arXiv:2405.02771}, 2024.
+
+\bibitem[Paolo et~al.(2022)Paolo, ting Tim~Lin, Gupta, Goodman, Patel, Kuster,
+  Kroodsma, and Dunnmon]{paolo2022xview3sardetectingdarkfishing}
+Fernando Paolo, Tsu ting Tim~Lin, Ritwik Gupta, Bryce Goodman, Nirav Patel,
+  Daniel Kuster, David Kroodsma, and Jared Dunnmon.
+\newblock xview3-sar: Detecting dark fishing activity using synthetic aperture
+  radar imagery, 2022.
+
+\bibitem[{Prabhishek Singh and Raj Shree}(2016. DOI:
+  10.1109/ICACCAF.2016.7748978. Online:
+  \url{http://ieeexplore.ieee.org/document/7748978})]{PrabhishekSingh}
+{Prabhishek Singh and Raj Shree}.
+\newblock {Analysis and effects of speckle noise in SAR images}.
+\newblock In \emph{Proc. International Conference on Advances in Computing,
+  Communication, \& Automation (ICACCA)}, 2016. DOI:
+  10.1109/ICACCAF.2016.7748978. Online:
+  \url{http://ieeexplore.ieee.org/document/7748978}.
+
+\bibitem[Radford et~al.(2021)Radford, Kim, Hallacy, Ramesh, Goh, Agarwal,
+  Sastry, Askell, Mishkin, Clark, et~al.]{clip}
+Alec Radford, Jong~Wook Kim, Chris Hallacy, Aditya Ramesh, Gabriel Goh,
+  Sandhini Agarwal, Girish Sastry, Amanda Askell, Pamela Mishkin, Jack Clark,
+  et~al.
+\newblock Learning transferable visual models from natural language
+  supervision.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  8748--8763. PmLR, 2021.
+
+\bibitem[Ren et~al.(2024)Ren, Yao, Li, Sun, and Hou]{ren2024timechat}
+Shuhuai Ren, Linli Yao, Shicheng Li, Xu Sun, and Lu Hou.
+\newblock Timechat: A time-sensitive multimodal large language model for long
+  video understanding.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 14313--14323, 2024.
+
+\bibitem[Shafique et~al.(2022)Shafique, Cao, Khan, Asad, and
+  Aslam]{shafique2022deep}
+Ayesha Shafique, Guo Cao, Zia Khan, Muhammad Asad, and Muhammad Aslam.
+\newblock Deep learning-based change detection in remote sensing images: A
+  review.
+\newblock \emph{Remote Sensing}, 14\penalty0 (4):\penalty0 871, 2022.
+
+\bibitem[Snell et~al.(2017)Snell, Swersky, and Zemel]{snell2017prototypical}
+Jake Snell, Kevin Swersky, and Richard Zemel.
+\newblock Prototypical networks for few-shot learning.
+\newblock \emph{Advances in neural information processing systems}, 30, 2017.
+
+\bibitem[Swope et~al.(2021)Swope, Rudelis, and Story]{swope2021representation}
+Aidan~M Swope, Xander~H Rudelis, and Kyle~T Story.
+\newblock Representation learning for remote sensing: An unsupervised sensor
+  fusion approach.
+\newblock \emph{arXiv preprint arXiv:2108.05094}, 2021.
+
+\bibitem[Tuia et~al.(2023)Tuia, Schindler, Demir, Camps-Valls, Zhu,
+  Kochupillai, Džeroski, van Rijn, Hoos, Frate, Datcu, Quiané-Ruiz, Markl,
+  Saux, and Schneider]{tuia2023artificial}
+Devis Tuia, Konrad Schindler, Begüm Demir, Gustau Camps-Valls, Xiao~Xiang Zhu,
+  Mrinalini Kochupillai, Sašo Džeroski, Jan~N. van Rijn, Holger~H. Hoos,
+  Fabio~Del Frate, Mihai Datcu, Jorge-Arnulfo Quiané-Ruiz, Volker Markl,
+  Bertrand~Le Saux, and Rochelle Schneider.
+\newblock Artificial intelligence to advance earth observation: a perspective,
+  2023.
+
+\bibitem[Van Den~Oord et~al.(2017)Van Den~Oord, Vinyals, et~al.]{van2017neural}
+Aaron Van Den~Oord, Oriol Vinyals, et~al.
+\newblock Neural discrete representation learning.
+\newblock \emph{Advances in neural information processing systems}, 30, 2017.
+
+\bibitem[Wang et~al.(2022)Wang, Albrecht, Braham, Mou, and Zhu]{wang2022self}
+Yi Wang, Conrad~M Albrecht, Nassim Ait~Ali Braham, Lichao Mou, and Xiao~Xiang
+  Zhu.
+\newblock Self-supervised learning in remote sensing: A review.
+\newblock \emph{arXiv preprint arXiv:2206.13188}, 2022.
+
+\bibitem[Wang et~al.(2023)Wang, Braham, Xiong, Liu, Albrecht, and
+  Zhu]{wang2023ssl4eo}
+Yi Wang, Nassim Ait~Ali Braham, Zhitong Xiong, Chenying Liu, Conrad~M Albrecht,
+  and Xiao~Xiang Zhu.
+\newblock Ssl4eo-s12: A large-scale multimodal, multitemporal dataset for
+  self-supervised learning in earth observation [software and data sets].
+\newblock \emph{IEEE Geoscience and Remote Sensing Magazine}, 11\penalty0
+  (3):\penalty0 98--106, 2023.
+
+\bibitem[Wu et~al.(2025)Wu, Zhong, Xing, Lai, Liu, Chen, Wang, Zhu, Lu, Lu,
+  et~al.]{wu2025visionllm}
+Jiannan Wu, Muyan Zhong, Sen Xing, Zeqiang Lai, Zhaoyang Liu, Zhe Chen, Wenhai
+  Wang, Xizhou Zhu, Lewei Lu, Tong Lu, et~al.
+\newblock Visionllm v2: An end-to-end generalist multimodal large language
+  model for hundreds of vision-language tasks.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  37:\penalty0 69925--69975, 2025.
+
+\bibitem[{Xinyu Bai and Feng Xu}(2024. Online:
+  \url{http://arxiv.org/pdf/2407.06095})]{XinyuBai}
+{Xinyu Bai and Feng Xu}.
+\newblock {Accelerating Diffusion for SAR-to-Optical Image Translation via
+  Adversarial Consistency Distillation}, 2024. Online:
+  \url{http://arxiv.org/pdf/2407.06095}.
+
+\bibitem[Xiong et~al.(2024)Xiong, Wang, Zhang, Stewart, Hanna, Borth,
+  Papoutsis, Saux, Camps-Valls, and Zhu]{xiong2024neural}
+Zhitong Xiong, Yi Wang, Fahong Zhang, Adam~J. Stewart, Joëlle Hanna, Damian
+  Borth, Ioannis Papoutsis, Bertrand~Le Saux, Gustau Camps-Valls, and
+  Xiao~Xiang Zhu.
+\newblock Neural plasticity-inspired foundation model for observing the earth
+  crossing modalities, 2024.
+
+\bibitem[Yang et~al.(2024{\natexlab{a}})Yang, Zhang, Wang, and
+  Xie]{yang2024mma}
+Lingxiao Yang, Ru-Yuan Zhang, Yanchen Wang, and Xiaohua Xie.
+\newblock Mma: Multi-modal adapter for vision-language models.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 23826--23837, 2024{\natexlab{a}}.
+
+\bibitem[Yang et~al.(2024{\natexlab{b}})Yang, Giezendanner, Civitarese,
+  Jakubik, Schmitt, Chandra, Vila, Hohl, Hill, Watson, et~al.]{yang2024multi}
+Qidong Yang, Jonathan Giezendanner, Daniel~Salles Civitarese, Johannes Jakubik,
+  Eric Schmitt, Anirban Chandra, Jeremy Vila, Detlef Hohl, Chris Hill, Campbell
+  Watson, et~al.
+\newblock Multi-modal graph neural networks for localized off-grid weather
+  forecasting.
+\newblock \emph{arXiv preprint arXiv:2410.12938}, 2024{\natexlab{b}}.
+
+\bibitem[Yu et~al.(2024)Yu, Liu, Liu, Shi, and Zou]{yu2024metaearth}
+Zhiping Yu, Chenyang Liu, Liqin Liu, Zhenwei Shi, and Zhengxia Zou.
+\newblock Metaearth: A generative foundation model for global-scale remote
+  sensing image generation.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}, 2024.
+
+\bibitem[Yuan et~al.(2021)Yuan, Shi, and Gu]{yuan2021review}
+Xiaohui Yuan, Jianfang Shi, and Lichuan Gu.
+\newblock A review of deep learning methods for semantic segmentation of remote
+  sensing imagery.
+\newblock \emph{Expert Systems with Applications}, 169:\penalty0 114417, 2021.
+
+\bibitem[{Z. Wang, A. C. Bovik, H. R. Sheikh, and E. P.
+  Simoncelli}(2004)]{ZWang}
+{Z. Wang, A. C. Bovik, H. R. Sheikh, and E. P. Simoncelli}.
+\newblock {Image quality assessment: From error visibility to structural
+  similarity}.
+\newblock \emph{IEEE Transactions on Image Processing, vol. 13, no. 4, pp.
+  600-612}, 2004.
+
+\bibitem[Zhang et~al.(2024)Zhang, Huang, Jin, and Lu]{zhang2024vision}
+Jingyi Zhang, Jiaxing Huang, Sheng Jin, and Shijian Lu.
+\newblock Vision-language models for vision tasks: A survey.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}, 2024.
+
+\bibitem[Zhao and Ji(2022)]{zhao2022cnn}
+Linying Zhao and Shunping Ji.
+\newblock Cnn, rnn, or vit? an evaluation of different deep learning
+  architectures for spatio-temporal representation of sentinel time series.
+\newblock \emph{IEEE Journal of Selected Topics in Applied Earth Observations
+  and Remote Sensing}, 16:\penalty0 44--56, 2022.
+
+\bibitem[Zhu et~al.(2017)Zhu, Tuia, Mou, Xia, Zhang, Xu, and
+  Fraundorfer]{zhu2017deep}
+Xiao~Xiang Zhu, Devis Tuia, Lichao Mou, Gui-Song Xia, Liangpei Zhang, Feng Xu,
+  and Friedrich Fraundorfer.
+\newblock Deep learning in remote sensing: A comprehensive review and list of
+  resources.
+\newblock \emph{IEEE geoscience and remote sensing magazine}, 5\penalty0
+  (4):\penalty0 8--36, 2017.
+
+\end{thebibliography}

@@ -1,0 +1,117 @@
+\begin{figure*}[t]
+    \centering
+    % Requires in the preamble:
+    % \usepackage{graphicx}
+    % \usepackage{tikz}
+    % \usetikzlibrary{arrows.meta,positioning,fit,calc}
+    \resizebox{\textwidth}{!}{%
+    \begin{tikzpicture}[
+        >=Latex,
+        font=\large,
+        node distance=5mm and 8mm,
+        every node/.style={align=center},
+        box/.style={
+            draw,
+            rounded corners,
+            minimum width=1.3cm,
+            minimum height=8mm,
+            inner sep=3pt,
+            fill=white
+        },
+        sidebox/.style={
+            draw,
+            rounded corners,
+            minimum width=3.1cm,
+            minimum height=8mm,
+            inner sep=3pt,
+            fill=white
+        },
+        titlebox/.style={
+            draw,
+            rounded corners,
+            font=\large\bfseries,
+            minimum width=1.3cm,
+            minimum height=9mm,
+            inner sep=3pt,
+            fill=white
+        },
+        metricbox/.style={
+            draw,
+            rounded corners,
+            minimum width=1.3cm,
+            minimum height=10mm,
+            inner sep=4pt,
+            fill=white
+        },
+        flow/.style={-Latex, thick},
+        note/.style={font=\normalsize, align=center},
+        stage/.style={font=\large\bfseries, align=left}
+    ]
+    
+    % Row titles
+    \node[titlebox] (GENCOTitle) {\rotatebox{90}{\genco}};
+    \node[titlebox, below=35mm of GENCOTitle]
+(pmTitle) {\rotatebox{90}{\shortstack{Classical solver\\(PowerModels)}}};
+
+    % \genco row
+    \node[box, right=8mm of GENCOTitle] (gLoad) {Load model\\and compile};
+    \node[box, right=of gLoad] (gPreload) {Preload \\input data \\into RAM};
+    \node[box, right=of gPreload] (gWarmup) {Warmup};
+    \node[box, right=10mm of gWarmup] (gLoop) {Repeated batched\\inference loop};
+    \node[sidebox, above=7mm of gLoop] (gCpu) {32 CPU workers\\prepare batches};
+    \node[box, right=of gLoop] (gTransfer) {Transfer \\batch\\to GPU};
+    \node[box, right=of gTransfer] (gNorm) {Normalize \\inputs};
+    \node[box, right=of gNorm] (gForward) {Model\\forward \\pass};
+    \node[box, right=of gForward] (gInverse) {Inverse-norm.\\outputs};
+    \node[metricbox, right=10mm of gInverse] (gMetric) {Reported metric:\\wall-clock time per\\solved instance};
+    \node[note, below=3mm of gMetric] (gNote) {Batched GPU inference\\with background CPU batch preparation};
+    
+    % PowerModels row
+    \node[box, right=8mm of pmTitle] (pPool) {Create\\worker pool};
+    \node[box, right=of pPool] (pInit) {Initialize one Julia\\runtime per worker};
+    \node[box, right=of pInit] (pCase) {Load base case into\\worker memory};
+    % \node[box, right=of pCase] (pPrep) {For PF/DC-PF only:\\prepare OPF\\ setpoints once};
+    \node[box, right=of pCase] (pWarmup) {Warmup solve\\per worker};
+    \node[box, right=15mm of pWarmup] (pLoop) {Repeated\\solve loop};
+    \node[sidebox, above=7mm of pLoop] (pSched) {Dynamic scheduling:\\next instance goes to\\first available worker};
+    \node[box, right=of pLoop] (pSolve) {Each worker solves\\one instance at a time};
+    \node[metricbox, right=10mm of pSolve] (pMetric) {Reported metric:\\wall-clock time per\\solved instance};
+    \node[note, below=3mm of pMetric] (pNote) {Multi-process CPU solving\\with dynamic scheduling};
+    
+    % Flows
+    \draw[flow] (gLoad) -- (gPreload);
+    \draw[flow] (gPreload) -- (gWarmup);
+    \draw[flow] (gWarmup) -- (gLoop);
+    \draw[flow] (gLoop) -- (gTransfer);
+    \draw[flow] (gTransfer) -- (gNorm);
+    \draw[flow] (gNorm) -- (gForward);
+    \draw[flow] (gForward) -- (gInverse);
+    \draw[flow] (gInverse) -- (gMetric);
+    \draw[flow] (gCpu.south) -- (gLoop.north);
+    
+    \draw[flow] (pPool) -- (pInit);
+    \draw[flow] (pInit) -- (pCase);
+    % \draw[flow] (pCase) -- (pPrep);
+    \draw[flow] (pCase) -- (pWarmup);
+    \draw[flow] (pWarmup) -- (pLoop);
+    \draw[flow] (pLoop) -- (pSolve);
+    \draw[flow] (pSolve) -- (pMetric);
+    \draw[flow] (pSched.south) -- (pLoop.north);
+    
+    % Excluded and included timing groups
+    \node[draw, dashed, rounded corners, inner sep=6pt, fit=(gLoad)(gPreload)(gWarmup)] (gExcluded) {};
+    \node[stage, above left=0mm and -1mm of gExcluded.north west, anchor=south west] {Excluded from timing};
+    \node[draw, rounded corners, inner sep=6pt, fit=(gLoop)(gCpu)(gTransfer)(gNorm)(gForward)(gInverse)] (gIncluded) {};
+    \node[stage, above left=0mm and -1mm of gIncluded.north west, anchor=south west] {Included in timing: \\Time to solve a fixed number of PF/OPF instances};
+    
+    \node[draw, dashed, rounded corners, inner sep=6pt, fit=(pPool)(pInit)(pCase)(pWarmup)] (pExcluded) {};
+    \node[stage, above left=0mm and -1mm of pExcluded.north west, anchor=south west] {Excluded from timing};
+    \node[draw, rounded corners, inner sep=6pt, fit=(pLoop)(pSched)(pSolve)] (pIncluded) {};
+    \node[stage, above left=0mm and -1mm of pIncluded.north west, anchor=south west] {Included in timing: \\Time to solve a fixed number of PF/OPF instances};
+    
+    \end{tikzpicture}
+    }
+    \caption{Benchmark pipelines used for runtime comparison. Top: for \genco, we measure steady-state throughput of batched GPU inference after model setup, sample preloading, and warmup. Bottom: for classical solvers, we measure steady-state throughput of a dynamically scheduled multi-process CPU solver pool after worker initialization, case loading, and warmup. Both report wall-clock time per solved instance, but they exploit parallelism differently: \genco through batching on a single GPU, and the classical solvers through multiple independent worker processes.}
+    \label{fig:benchmark_pipeline_diagram}
+    \end{figure*}
+    

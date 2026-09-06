@@ -1,0 +1,55 @@
+\section{Introduction}
+\label{sec:intro}
+% Increasing VRE penetration broadens the range of seasonal and hourly operating conditions relevant to transmission planning. Assessing combinations of renewable dispatch, demand, contingencies, network configurations, and planning assumptions creates a combinatorially large analysis space, making exhaustive evaluation with conventional PF and OPF solvers computationally prohibitive. Efficient and scalable grid-analysis methods are therefore increasingly important.
+
+% The growing penetration of variable renewable energy resources increases grid variability and uncertainty, expanding the operating conditions considered in planning and accommodated in real-time operations~\cite{doe2024national}. Combinations of renewable generation, demand, contingencies, network configurations, and control decisions create a combinatorially large state space whose analysis, optimization, and monitoring require repeated PF, OPF, and SE calculations, respectively~\cite{whitehouse2022climategoals,doe2022cleanelectricity}.
+
+
+The growing penetration of variable energy resources, together with changing demand patterns, increases grid uncertainty, broadening the range of operating conditions considered in planning studies and encountered in real-time operations~\cite{doe2024national}. Across these settings, combinations of generation, demand, contingencies, network configurations, and control decisions create a combinatorially large space of potential grid states. Analyzing, optimizing, and monitoring these states require repeated power flow (PF), optimal power flow (OPF), and state estimation (SE) calculations, respectively, placing substantial computational demands on conventional solvers and making efficiency a central challenge~\cite{whitehouse2022climategoals,doe2022cleanelectricity}. Classical AC solvers (e.g., based on Newton-Raphson for PF and interior-point methods for OPF) provide reliable solutions but become computationally expensive at scale. Thus, DC approximations are often used, but sacrifice solution completeness and physical consistency.
+\\\\
+In this context, machine learning has emerged as a promising approach for building surrogate models of power systems~\cite{benes2024ai,daniel2024ai,smartcities4020029,cremer2024pioneeringroadmapmldrivenalgorithmic,11371605} that can learn complete AC solutions and provide significant speedups. Recent work has demonstrated encouraging gains in accelerating PF and OPF through so-called neural solvers~\cite{DONON2020106547,gnnreviewpowergrid,Khaloie}, particularly using graph neural network-based architectures~\cite{gnnreview,Wu_2021}. However, their practical use remains limited. Existing approaches are often task-specific, restricted to fixed grid sizes or problem formulations, and evaluated on synthetic datasets that do not fully reflect operational variability. For instance, neural PF solvers may degrade under distribution shifts when trained primarily on OPF-feasible states~\cite{lin2024powerflownet,DONON2020106547, NEURIPS2025_d000ef56}, and current neural OPF solvers only rely on fixed generator cost coefficients~\cite{lovett2024opfdatalargescaledatasetsac,opflearn,pglearn,varbella2024powergraph}. In SE, neural approaches remain comparatively underexplored, and achieving robustness to noisy data, missing measurements, and low observability continues to be a key challenge~\cite{10408467,BHUSAL2021106806}.\\
+
+A further limitation is fragmentation. New architectures are trained and tested on custom datasets, specific grids, and different evaluation metrics. This makes comparisons difficult, limits reproducibility, and slows down innovation cycles. Runtime studies are often inconsistent, varying in solver settings, implementations, and hardware, and often compare highly parallelized GPU-accelerated neural solvers against classical solvers running on a single CPU core~\cite{piloto2024, arowolo2025,varbella2024physicsinformedgnnnonlinearconstrained}. Moreover, most neural solvers are developed separately for PF, OPF, or SE, although they share the same network topology, electrical variables, and constraints. This prevents reuse across tasks and limits the transfer of learned grid representations. In addition, limited tooling exists to develop neural solvers, requiring expert knowledge in computer science and power systems, which slows the uptake of the technology. 
+
+
+
+\subsection*{Contributions}
+
+Motivated by the fragmentation of existing approaches and the transformative impact of foundation models in building broad and fast surrogates for complex systems~\cite{bommasani2021opportunities,mukkavilli2023aifoundationmodelsweather,jakubik2023foundation}, we previously outlined a vision for an AI foundation for the electric power grid~\cite{hamann2024foundation}. This paper represents a first concrete step toward this vision by introducing a unified architecture that supports multiple grid analysis tasks, demonstrates robustness to distribution shifts, and achieves strong data efficiency. This lays the foundation for future Grid Foundation Models (GridFMs) capable of adapting to new tasks and grid topologies without finetuning. \\
+
+Overall, we report our advances in steady-state grid analysis built around two complementary contributions:
+
+\begin{itemize}
+    \item \textbf{\genco (GEometric Neural Corrective Optimizer)}, a unified neural solver architecture as a common backbone, that operates on a shared grid representation and scales to large grids of up to 10k buses. It eliminates the need for separate task-specific models, as it supports three core tasks:
+
+    \begin{itemize}
+        \item \textit{Power Flow}, including off-nominal operating conditions and high-order contingencies.
+        \item \textit{Optimal Power Flow}, supporting variable generator costs.
+        \item \textit{State Estimation}, robust to partial observability and inaccurate grid parameters.
+    \end{itemize}
+    
+    % \begin{itemize}
+    %     \item \textit{Power Flow}, including off-nominal operating conditions and high-order contingencies (up to $N$-$20$), with up to \maxpfspeedups speedups over Newton–Raphson AC solvers.
+    %     \item \textit{Optimal Power Flow}, supporting variable generator cost and achieving up to \maxopfspeedups speedups over interior-point (IPOPT) solvers with better accuracy than DC-PF.
+    %     \item \textit{State Estimation}, improving convergence, accuracy and robustness to noise, missing data, and low observability compared to weighted least squares methods.
+    % \end{itemize}
+
+    \item \textbf{GridFM Development Framework} (\cref{fig:motivational_example}), released under the Apache 2.0 license via the LF Energy \mbox{OpenGridFM} project, designed to enable scalable development and reproducible experimentation with a low barrier to entry. It integrates tools for synthetic data generation, model development, and standardized evaluation in a low-code environment, and consists of:
+    \begin{itemize}
+        \item \textit{\datakit}, for generating realistic PF/OPF datasets with diverse load and topology perturbations,
+        \item \textit{\graphkit}, for training and evaluating neural solvers such as \genco,
+        \item \textit{Open datasets} containing 4 million PF/OPF instances across 8 grid topologies, hosted on Hugging Face.
+    \end{itemize}
+\end{itemize}
+
+
+Building on this framework, we further evaluate \genco and introduce a unified benchmarking and analysis pipeline:
+
+\begin{itemize}
+    \item \textbf{Comprehensive performance, runtime, and scalability analysis} against state-of-the-art neural solvers (PF: GNS~\cite{DONON2020106547}, CANOS-PF~\cite{NEURIPS2025_d000ef56}, PFNet~\cite{lin2024powerflownet}; OPF: HH-MPNN~\cite{arowolo2025}) and classical AC/DC solvers (PowerModels~\cite{powermodels}) on \pfdelta~\cite{NEURIPS2025_d000ef56} and OPFData~\cite{lovett2024opfdatalargescaledatasetsac} benchmarks. 
+    \item \textbf{Validation on real-world data} using SCADA measurements from the Hydro-Québec grid. We demonstrate that \genco can leverage synthetic pretraining and limited real-world finetuning to compute complete AC solutions on real-world data.
+\end{itemize}
+
+
+
+

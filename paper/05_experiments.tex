@@ -1,0 +1,335 @@
+
+\section{Results}
+\label{sec:experiments}
+
+
+We evaluate \genco against classical and state-of-the-art neural solvers for power flow (PF) in \cref{subsec:pf}, optimal power flow (OPF) in \cref{subsec:opf}, and state estimation (SE) in \cref{subsec:SE}. We then study runtime and accuracy scaling with grid size and compare against classical AC and DC PF/OPF solvers in \cref{subsec:scaling}. Next, we assess generalization to topology perturbations, out-of-distribution operating conditions, and unseen grids in \cref{subsec:generalization}. Finally, we validate \genco on real SCADA data from the Hydro-Québec grid in \cref{subsec:hq1200}.
+
+Throughout this section, we consider three \genco variants that differ only in their hidden dimension $H$, which determines the size of the input representations after projection (\cref{eq:input_proj}) and the latent space (\cref{eq:transformer}): \genco Base ($H=48$), Small ($H=24$), and Tiny ($H=12$), with 20.1M, 5.0M, and 1.3M parameters, respectively. All other architectural components are kept identical across variants. Unless stated otherwise, ``\genco'' refers to \genco Base.
+
+
+
+\subsection{Power Flow}
+\label{subsec:pf}
+
+We evaluate \genco on Power Flow (PF) using PF$\Delta$~\cite{NEURIPS2025_d000ef56}, a benchmark of 12 tasks designed to assess neural PF solvers under varying topologies, data regimes, and operating conditions. We compare \genco against CANOS-PF (adapted from~\cite{piloto2024}), GNS-S~\cite{DONON2020106547}, and PFNet~\cite{lin2024powerflownet}, on the subset of tasks listed in \cref{tab:tasks-summary}, for which results on the IEEE 118-bus system were reported by the authors. Extensive comparisons against classical AC and DC solvers are presented in \cref{subsec:scaling}, as \pfdelta does not provide DC-PF solutions nor classical solver runtimes. CANOS-PF is a soft-constrained supervised model trained with a combination of an $\ell_2$ loss to precomputed AC power flow solutions and a penalty on power-balance residuals. PFNet is a purely supervised model trained with an $\ell_2$ loss on precomputed AC power flow solutions. GNS-S is a self-supervised method that iteratively minimizes power-balance violations through residual-based updates of nodal features.\\
+
+
+\begin{table}
+\centering
+\small
+\renewcommand{\arraystretch}{1.0}
+\begin{tabularx}{\linewidth}{lX}
+\toprule
+\textbf{Task} & \textbf{Training setup} \\
+\midrule
+\multicolumn{2}{l}{\textbf{Generalization to topology perturbations}} \\
+\midrule
+1.1 & Train on (N) only. \\
+1.2 & Train on (N) and (N{-}1). \\
+1.3 & Train on (N), (N{-}1), and (N{-}2). \\
+\midrule
+\multicolumn{2}{l}{\textbf{Data efficiency}} \\
+\midrule
+2.1 & Baseline setting (same as 1.3; 54k training samples). \\
+2.2 & \textit{Skipped; no results reported by the authors.} \\
+2.3 & Same training composition as 2.1, with $3\times$ less training data (18k samples). \\
+\midrule
+\multicolumn{2}{l}{\textbf{Generalization to different grid sizes}} \\
+\midrule
+3.1 & Train on IEEE 118; evaluate on the unseen IEEE 57 and GOC 500 grids. \\
+\midrule
+\multicolumn{2}{l}{\textbf{Training on challenging PF cases}} \\
+\midrule
+4.1 & Train on 90\% feasible and 10\% C2I samples. \\
+4.2 & Train on 50\% feasible, 10\% C2I, and 40\% approaching-infeasibility samples. \\
+4.3 & Train on 20\% C2I and 80\% approaching-infeasibility samples only. \\
+\bottomrule
+\end{tabularx}
+\caption{PF$\Delta$ tasks evaluated in this work. The tasks assess (i) generalization to topology perturbations (Tasks 1.x), (ii) data efficiency (Tasks 2.x), (iii) generalization to different grid sizes (Task 3.1), and (iv) the effect of training on challenging PF cases (Tasks 4.x). Each task trains a separate neural solver on the IEEE 118-bus system and is evaluated on (N), (N{-}1), (N{-}2), and close-to-infeasible (C2I) test cases for IEEE 118, except Task 3.1, which additionally evaluates on the unseen IEEE 57- and GOC 500-bus systems. Tasks 4.1--4.3 vary the composition of the training set by progressively replacing feasible samples with C2I and approaching-infeasibility samples. C2I and approaching-infeasibility samples correspond to operating points at and immediately preceding the steady-state stability limit, respectively.}
+\label{tab:tasks-summary}
+\end{table}
+
+
+
+
+
+\begin{figure*} \centering \includegraphics[width=\linewidth]{figures/pf_delta/pbl_all_rows_mean.pdf} 
+\caption{Mean power-balance loss (averaged across all buses of all samples) for \genco, CANOS-PF, GNS-S, and PFNet across PF$\Delta$ tasks on the IEEE 118-bus system. Error bars in the figure correspond to the standard deviation over three seeds. C2I denotes close-to-infeasible cases at the steady-state stability limit, where classical solvers face challenges~\cite{NEURIPS2025_d000ef56}.}
+\label{fig:mean-pb} \end{figure*}
+
+
+
+We report mean power-balance loss as in~\cite{NEURIPS2025_d000ef56}, which is computed for each bus $k$ as the $\ell_2$ norm of the nodal power-balance residuals (defined in \cref{eq:PBRes}), i.e., $
+\|\mathrm{PBRes}_k\|_2
+=
+\sqrt{\mathrm{PBRes}_{P,k}^2 + \mathrm{PBRes}_{Q,k}^2},
+$
+and averaged over all buses across all PF samples within a given test set, with values expressed in p.u. on a 100 MVA base, i.e., \(x_{\mathrm{p.u.}} = x / S_{\mathrm{base}}\), where \(S_{\mathrm{base}} = 100\,\mathrm{MVA}\) is the power base.\\
+
+We report \genco's performance for all tasks except Task 3.1 (\cref{table:all-cases-mean}) in \cref{fig:mean-pb}. The results indicate that \genco achieves substantially lower errors and variance than all baselines across all tasks and topology variants. We complement the figure and additionally provide a relative measure of error magnitude, expressing the mean power-balance loss as a percentage of the mean bus apparent power injection\footnote{For a bus $k$, the apparent power is $|S_k| = \sqrt{P_{\mathrm{bus},k}^2 + Q_{\mathrm{bus},k}^2}$.}. In the baseline setting, where \genco is trained on (N), (N{-}1), and (N{-}2) topologies and evaluated on the corresponding test sets (Tasks 1.3/2.1), the loss amounts to only 0.28\%, 0.53\%, and 0.69\% of the mean apparent power under (N), (N{-}1), and (N{-}2) conditions, respectively (with mean bus apparent powers of 0.95, 0.87, and 0.86 p.u.). Among the baselines, only CANOS-PF remains within the single-digit percentage range (4.2\%, 6.4\%, and 7.3\%), whereas all other methods exhibit errors corresponding to approximately 40--50\% of the mean apparent power, indicating substantial violations of power-balance constraints and very limited physical consistency for these solvers.\\
+
+Examining individual task groups provides further insight into \genco's behavior: Tasks~1.1--1.3 show that adding (N{-}1) contingencies to the training set is sufficient for \genco to generalize to both (N{-}1) and (N{-}2) topologies with essentially no loss in accuracy compared to (N). Even training only on (N) topologies already yields strong performance. In contrast, the baseline solvers, particularly CANOS-PF, exhibit substantially larger residuals on (N{-}1) and (N{-}2) topologies when such perturbations are absent from the training set. Tasks~2.1 and~2.3 further demonstrate that \genco maintains low error when the training set is reduced by a factor of three, while keeping the training composition and test sets unchanged. While CANOS-PF experiences only a modest degradation, the error of GNS-S nearly doubles between Tasks~2.1 and~2.3. Task~4.1 indicates that replacing 10\% of feasible training samples with close-to-infeasible (C2I) samples provides only marginal improvements on C2I test cases while slightly degrading performance on the remaining datasets compared to Tasks~1.3/2.1. Tasks~4.2 and~4.3 show that progressively increasing the proportion of challenging training samples, from 50\% to 100\%, further improves performance on C2I cases, particularly in terms of standard deviation, but comes at the expense of increased errors on the other datasets.\\
+
+\cref{fig:max-pb} (Appendix) shows that \genco also achieves substantially lower \emph{maximum} power-balance errors than all baselines across (N), (N{-}1), and (N{-}2) topologies. On close-to-infeasible cases, however, GNS-S exhibits lower worst-case errors, potentially due to its self-supervised training objective, which may provide greater robustness to out-of-distribution operating conditions. Nevertheless, all methods exhibit very large worst-case residuals, often exceeding several times the mean apparent power\footnote{A more detailed analysis of the distribution of these residuals would be required to determine what fraction of test samples exhibit such large errors, which we leave for future work.}.\\
+
+
+
+
+
+
+\input{figures/pf_delta/pf_delta_a_10}
+
+Finally, Task~3.1 evaluates models trained on IEEE 118 on the unseen IEEE 57 and GOC 500 grids (\cref{table:all-cases-mean}). \genco achieves the lowest mean power-balance loss on both unseen grids, although all models suffer from substantial degradation under cross-grid evaluation. Relative to the mean apparent power averaged over (N), (N{-}1), and (N{-}2), \genco's mean error is approximately equal to the average apparent power on IEEE 57 and approximately 14$\times$ larger on GOC 500, while the baselines show even larger errors.\\ %(0.91, 0.49, and 0.63 p.u. for IEEE 118, IEEE 57, and GOC 500, respectively), 
+
+
+
+
+
+\begin{boxH}
+\paragraph{Takeaways.}
+\begin{itemize}
+\item When used to solve Power Flow, \genco achieves very low \emph{mean} power-balance residuals (\textless 1\% of the mean apparent power), lower than all state-of-the-art models on the PF$\Delta$ dataset.
+\item It is more data-efficient and more robust to close-to-infeasible cases than competing methods.
+\item All baseline models and \genco exhibit large worst-case errors and degraded performance on unseen grids, with power-balance residuals reaching multiples of the mean apparent power in both cases, highlighting the need for more robust solvers and more sophisticated pretraining.\end{itemize}
+\end{boxH}
+
+\subsection{Optimal Power Flow}
+\label{subsec:opf}
+
+\input{figures/opf/opf_ola}
+
+
+We evaluate \genco on the OPFData~\cite{lovett2024opfdatalargescaledatasetsac} benchmark against the Hybrid Heterogeneous Message Passing Neural Network (HH-MPNN) proposed in~\cite{arowolo2025}, which is the latest baseline available for this dataset at the time of writing. We use the dataset version containing N-1 topology perturbations and follow exactly the same train/validation/test splits as in \cite{arowolo2025}: 270,000 samples for training (90\%), 15,000 for validation (5\%), and 15,000 for testing (5\%). Experiments are conducted on six benchmark systems ranging from 14 to 2000 buses. All \genco experiments are repeated over three random seeds while keeping identical data splits to ensure a fair comparison with \cite{arowolo2025}, which only reports results for one seed.
+\\\\
+
+\cref{tab:opf_results} reports both optimality and feasibility metrics. Optimality gap (\%) is computed as the mean relative objective gap with respect to the IPOPT solution over the test set. Feasibility metrics report absolute mean constraint violations: branch angle-difference violations $\theta_{ij}$ are zero for all solvers and considered cases and are therefore omitted, apparent power flow limit violations $S_{ij}(+)$ and $S_{ij}(-)$ in MVA for both branch directions, active and reactive power-balance residuals $\mathrm{PBRes}_{P}$ and $\mathrm{PBRes}_{Q}$ in MW and MVar, respectively (\cref{eq:PBRes}), and reactive generation limit violations $Q_g$ in MVar. All violations are averaged over all buses and lines across all test-set instances.
+\\\\
+The results highlight a trade-off between optimality and feasibility. On the smaller 14- to 118-bus systems, both solvers achieve highly feasible and optimal solutions overall. Moreover, \genco shows consistently lower reactive power-balance residuals $\mathrm{PBRes}_{Q}$, often by one to two orders of magnitude compared to HH-MPNN.
+\\\\
+On larger systems (500- and 2000-bus systems), HH-MPNN typically achieves lower objective gaps, whereas \genco attains substantially smaller branch thermal and reactive power-balance violations. For example, on the 2000-bus system, HH-MPNN reaches a near-zero optimality gap (potentially due to reduced constraint satisfaction), while \genco reduces branch flow violations from approximately $2.8 \times 10^{-3}$ to $2.3 \times 10^{-5}$~MVA (averaged over both directions).
+\\\\
+\genco consistently achieves lower $\mathrm{PBRes}_{Q}$ residuals because reactive generation $Q_g$ is reconstructed analytically from the reactive power-balance equations using the decoded voltage state, rather than being predicted directly. This physics-based completion makes reactive power-balance residuals structurally zero at PV and reference buses. This design trades reactive power-balance feasibility against explicit enforcement of reactive generation limits. Unlike \cite{arowolo2025}, \genco does not project reconstructed $Q_g$ onto generator limits using sigmoid activations, which can lead to small $Q_g$ violations. However, these remain negligible in practice: the largest mean violation is below 0.036\% of the mean reactive power limits.
+\\\\
+Finally, in addition to achieving an extremely small optimality gap (0.3\% in the worst case), we provide context for the magnitude of the reported violations by normalizing inequality constraints by their mean limits and equality constraints by the corresponding mean net injections.\footnote{A more informative metric would normalize each violation by its constraint limit before averaging. However, these quantities are not reported in~\cite{arowolo2025}, and the variability in constraint limits (including very small bounds) can make such metrics sensitive to outliers. We therefore report mean violations relative to mean constraint limits for inequality constraints, and use mean mismatches for equality constraints, to provide a sense of scale. We leave a more complete analysis for future work.}. The largest mean thermal violation to mean thermal limit ratio is obtained for IEEE 118, where violations represent 0.0018\% of the mean limits (0.0556\% for HH-MPNN on the same case). For the power-balance mismatch relative to mean net active injection, the worst case for \genco is GOC 2000 with 0.176\% (0.082\% for HH-MPNN on IEEE 118). For reactive power-balance mismatch relative to mean net reactive injection, the worst case is IEEE 57, with 0.340\% (1.38\% for HH-MPNN on IEEE 57).\\
+
+
+
+
+
+ %      dataset  available_partitions  sampled_partitions  mean_rate_a  mean_net_active_injection  mean_net_reactive_injection  mean_qg_max_upper_bound
+ %  case14_ieee                  1500                  50   190.984954                  37.608090                     7.475750                25.479667
+ %  case30_ieee                  1500                  50    81.501405                  17.642591                     4.766607                30.663312
+ %  case57_ieee                  1500                  50   298.077878                  30.791514                     8.770591                88.962080
+ % case118_ieee                  1500                  50   248.450877                  62.270168                    17.880290               147.298577
+ %  case500_goc                  1500                  50   370.190396                  70.808837                    15.957078                95.224356
+ % case2000_goc                  1500                  50   217.340042                  33.364938                     8.230189               121.774097
+
+
+\begin{boxH}
+\paragraph{Takeaways.}
+
+\begin{itemize}
+
+\item For Optimal Power Flow, evaluated on OPFData, \genco achieves \textbf{competitive optimality} (worst-case gap $\leq0.3\%$) while substantially improving feasibility, with all \textbf{mean normalized feasibility violations remaining below $0.35\%$} across all grids.
+\end{itemize}
+\end{boxH}
+
+\input{00stateestimation}
+
+\subsection{Runtime and Performance Scaling}
+\label{subsec:scaling}
+\input{00scaling}
+
+
+
+\subsection{Robustness \& Generalization}
+
+\label{subsec:generalization}
+
+A key requirement for any power-system solver is reliable performance across (1) diverse topologies, (2) operating conditions, and (3) network sizes. Classical solvers are well established across these dimensions, with their main limitation being occasional convergence failures in challenging cases~\cite{tostado2021solving}. In contrast, robustness across these dimensions remains a central challenge for neural solvers, which typically require retraining when topology or operating regimes change. Achieving high accuracy across diverse scenarios is therefore essential for the scalability and practical deployment of neural solvers. We evaluate \genco along three axes: generalization to topology perturbations beyond the training distribution (\cref{subsubsec:top_perturbation}), robustness under stressed operating conditions such as thermal overloads and voltage violations (\cref{subsubsec:robustness}), and transfer to previously unseen grids (\cref{subsubsec:transfer}). %We focus on PF, while a similar analysis for OPF is left for future work.
+
+
+
+\subsubsection{Generalization to Topology Perturbations}
+
+\label{subsubsec:top_perturbation}
+
+\paragraph{Experiment setup.} \genco is evaluated under contingency levels that match or exceed those seen during training to assess robustness to topology perturbations. Specifically, \genco Base is trained on 140,000 AC-PF samples\footnote{Using \datakit, we generated 200,000 samples, of which 176,415 converged; 80\% of converged samples were used for training.} from the Texas 2000-bus system with up to \textbf{N-2} contingencies, corresponding to the removal of up to two branches and/or generators. The test set contains 9,000 cases for each contingency level from N-1 to N-20. Components are removed uniformly across the grid, and islanding cases are filtered out. Since perturbations are applied after computing the base dispatch (\cref{subsubsec:gen_setpoints}), the resulting operating points may exhibit voltage violations, branch overloads, large angle differences, and reactive-power limit violations.
+
+
+
+
+
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{figures/robustness/boxplot_relative_residuals.png}
+\caption{Bus-level active power-balance residuals (excluding zero net injection buses) for \genco and DC-PF under N-$k$ contingencies ($k=1,\dots,20$) on the Texas 2000-bus system. \genco is trained only on N-2 perturbations. Whiskers indicate 1.5$\times$IQR.}
+\label{fig:performance_k_1_20}
+\end{figure}
+
+\paragraph{Results.} We evaluate bus-level relative active power-balance residuals, as opposed to absolute residuals, which mask large errors at low-injection buses. The bus-level relative active power-balance residuals are defined as the active power-balance residuals divided by the magnitude of the net bus injection\footnote{We filter out buses with zero net injection for which such a metric cannot be computed. These represent ~25\% of all buses across the entire dataset, and we report absolute metrics separately for them in \cref{appendix:zeroinj}}. This normalization approach makes the metric comparable across buses with vastly different injection levels. \genco consistently outperforms DC-PF across all contingency levels, including those beyond the training distribution, i.e., for N-k with $k > 2$ (\cref{fig:performance_k_1_20}). Residuals increase with outage count, but degradation remains gradual: \genco achieves 2.85$\times$ lower median residuals than DC-PF for N-1 contingencies and 1.5$\times$ lower median residuals for N-20.\\
+
+
+Outlier residuals displayed in \cref{fig:performance_k_1_20} are high for both DC-PF and \genco (between 9.2 and 9.8 percent of the buses across all contingency orders and solvers). Thus, we report the fraction of buses with residuals below practically relevant thresholds for $k=10$ in \cref{fig:threshold_share_relative_k10}: \genco outperforms DC-PF at all levels, including 1\% (83.65\% vs 69.30\%). The same trend holds for absolute thresholds (\cref{fig:abs_threshold_k10}, \cref{appendix:top}), e.g., at 1~MW (97.69\% vs 85.78\%). Further details about the 1\% threshold fraction across contingencies can be found in \cref{fig:rel_threshold_vs_k} in \cref{appendix:top}.
+
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{figures/robustness/threshold_share_relative_k10.pdf}
+\caption{Percentage of samples below relative active power-balance residual thresholds at $k=10$ (excluding zero net injection buses). \genco achieves a larger share of low-residual predictions than DC-PF across all reported thresholds.}
+\label{fig:threshold_share_relative_k10}
+\end{figure}
+
+
+
+
+\subsubsection{Robustness to Out-of-Operating-Limit Scenarios}
+\label{subsubsec:robustness}
+
+\paragraph{Experiment setup.} Next, we evaluate GENCO's performance on operating points that violate thermal or voltage limits. These out-of-operating-limit elements are rare: only $0.0071$\% of branches are overloaded, corresponding to 1,979 out of a total of 28,052,640 branches in the dataset. Thus, such cases are underrepresented during model training relative to branches operating within nominal limits. For this experiment, we use the same \genco Base model as in the previous experiment, trained and tested on the N-2 contingency dataset.
+
+\paragraph{Results.} The comparison of \genco and DC-PF branch loading predictions against AC-PF is depicted in \cref{fig:dc_loading}. Branch loadings are normalized by their thermal limits, such that values above 1.0 correspond to overloads. While DC-PF exhibits substantial dispersion, \genco remains closely aligned with the diagonal across both normal and overloaded operating regimes, as quantified by the coefficient of determination.\\
+
+To further assess performance near and beyond thermal limits, \cref{fig:loading_boxplot} reports absolute loading errors as a function of the true loading level. \genco consistently outperforms DC-PF across all loading bins, including overload conditions that are strongly underrepresented in the training data. For lines with true loadings between 1.0 and 1.1, \genco achieves a mean absolute error of 0.004, enabling accurate identification of overloaded components. \\
+
+Since DC-PF does not predict voltage magnitudes, voltage-related results are reported separately in \cref{appendix:voltage_violations}. There, we show that \genco accurately captures both normal and out-of-limit voltage regimes despite the scarcity of voltage violations in the training data. These results indicate that explicit oversampling of out-of-limit operating points is not required for accurate overload prediction.\\
+
+
+\begin{figure}
+\centering
+\includegraphics[width=0.9\linewidth]{figures/robustness/mass_correlation_density_Texas_vs_dc.pdf}
+\caption{Relative branch loading predictions obtained with \genco base (left) and DC-PF (right) compared to AC-PF loadings. Values above 1.0 indicate thermal overloads.}
+\label{fig:dc_loading}
+\end{figure}
+
+
+
+
+
+
+
+
+
+\begin{figure}
+\centering
+\includegraphics[width=0.9\linewidth]{figures/robustness/loading_error_boxplot_by_true_loading_Texas.pdf}
+\caption{Absolute branch loading prediction error as a function of the true loading level. $n$ indicates the number of test samples in each bin.}
+\label{fig:loading_boxplot}
+\end{figure}
+
+
+
+
+
+\subsubsection{Transfer to Unseen Grids and Data Efficiency}
+\label{subsubsec:transfer}
+\begin{figure} 
+\centering 
+\includegraphics[width=0.85\linewidth]{figures/robustness/scratch_vs_finetune_active_residuals.pdf} 
+\caption{Mean active power-balance residuals on IEEE 118 for fine-tuned pretrained models and models trained from scratch using datasets of varying size. DC-PF and the zero-shot pretrained model (without fine-tuning) are shown as baselines.} 
+\label{fig:transfer} 
+\end{figure}
+
+An important objective for neural PF solvers is rapid adaptation to entirely new grids using only a limited number of grid-specific samples. This capability would reduce deployment costs, since acquiring AC-PF datasets and training neural solvers from scratch for every new topology is time-consuming and expensive. We therefore investigate the transferability of pretrained \genco models to unseen grids under different levels of fine-tuning. To increase topology diversity during pretraining, we generate subgrids from existing grids and evaluate transfer to unseen topologies.
+
+\paragraph{Experiment setup.}
+Only around 50 different grids for which PF converges are available in PGLib. To increase the number of pretraining topologies, we extract subgrids from base grids using Metropolis-Hastings random walks. Power flows on cut lines are aggregated into dummy generators or loads depending on their sign. Using this approach, we generate 100 subgrids from 10 PGLib base cases, with sizes ranging from 100 to 1000 buses. We generate 9,000 PF samples per subgrid using \datakit, yielding 900,000 scenarios. Validation is performed on 10 unseen subgrids. \\ 
+
+We then fine-tune the pretrained GENCO model on the IEEE 118-bus system using varying numbers of grid-specific samples. The resulting fine-tuned models are compared with models trained from scratch using the same datasets\footnote{The only difference between the two models is their weight initialization: the fine-tuned model starts from pretrained weights, whereas the scratch model uses random initialization.}.
+
+\paragraph{Results.}
+The active power-balance residuals are shown in \cref{fig:transfer}, together with those obtained with DC-PF and with the pretrained GENCO used in a zero-shot manner, i.e., without any fine-tuning on the test grid. The pretrained model has poor zero-shot generalization, with an average residual of 11.07 MW compared with 2.30 MW for DC-PF. However, with only 1,000 grid-specific samples, fine-tuning already outperforms DC-PF (1.93 MW), whereas training from scratch remains worse (3.81 MW). With 10,000 samples, fine-tuning further reduces the residual to 0.27 MW, compared with 0.92 MW when training from scratch. At 250,000 samples, scratch training surpasses fine-tuning, which slightly degrades under extensive fine-tuning.\\
+
+Overall, these results show that topology-diverse pretraining can accelerate adaptation to unseen grids when grid-specific data are limited. However, with sufficient data from a single grid, training from scratch can eventually outperform pretraining. Further work is needed to reduce the number of fine-tuning samples required for true few-shot adaptation.\\
+
+
+
+
+\begin{boxH}
+\paragraph{Takeaways.}
+
+\begin{itemize}
+
+\item \genco generalizes to contingency levels up to N-20 despite training only on N-2, achieving 2.85$\times$ lower median residuals than DC-PF for N-1 contingencies and 1.5$\times$ lower median residuals for N-20.
+
+\item \genco remains robust under out-of-operating-limit scenarios despite training on fewer than $0.01$\% such out-of-limit elements, outperforming DC-PF for line-loading prediction and detecting voltage violations beyond the capabilities of DC-PF.
+
+\item A pretrained \genco transfers effectively to new grids, with only 1,000 grid-specific samples sufficient to outperform DC-PF on IEEE 118, although zero-shot generalization remains an open challenge.
+
+\end{itemize}
+\end{boxH}
+
+
+
+
+\subsection{Validation on Real Data from the Hydro-Québec Grid}
+\label{subsec:hq1200}
+
+Finally, we evaluate \genco on the real Hydro-Qu\'ebec HQ1200 transmission network, extending the validation beyond the synthetic IEEE/GOC topologies. All experiments are done for the PF task. HQ1200 comprises 1,200 buses and differs markedly from these benchmarks through its V-shaped topology, with long corridors linking northern generation to southern load. These long-range dependencies make HQ1200 a non-trivial test for \genco.\\
+
+As we only have a limited amount of SCADA data samples---roughly one year of measurements at 30-minute resolution---we proceed in two stages.
+First, we pretrain \genco on synthetic HQ1200 operating points generated with \datakit (\cref{subsec:comparison_data_hq}), and compare \genco's performance against GRIT-HQ and classical AC/DC power flow solvers (\cref{subsubsec:hq_synthetic}).
+Second, we fine-tune the pretrained \genco model on varying amounts of SCADA scenarios, and compare against \genco trained from scratch, on the same SCADA splits (\cref{subsubsec:hq_scada}).
+
+\subsubsection{Pretraining on synthetic data}
+\label{subsubsec:hq_synthetic}
+
+First, we compare \genco Tiny against Hydro-Qu\'ebec Research Institute's GRIT-HQ model. Unlike the more general-purpose \genco architecture, GRIT-HQ is specialized for power flow on bus-level graphs. It is based on the GRIT architecture~\cite{ma2023graph}, uses random-walk structural encodings, and scales linearly with graph size; details are given in \cref{appendix:hqgrit}. Both models are trained on 200{,}000 synthetic HQ1200 samples (80/10/10 train/validation/test), with three independent seeds.\\
+
+Mean active and reactive power-balance residuals are reported in \cref{tab:hq1200_results}. GRIT-HQ exhibits higher active power-balance residuals than DC-PF, whereas \genco reduces active power-balance residuals by approximately $2.5\times$ relative to DC-PF and substantially improves reactive power-balance residuals compared with GRIT-HQ. The resulting residual magnitudes of \genco are small compared to balancing and remedial actions routinely deployed by Hydro-Québec~\cite{EU2017_2195,EU2017_1485_SOGL}. This result is also consistent with IEEE grids of comparable size (\cref{fig:gridsize_vs_residuals_pf}), indicating robustness to a markedly different topology without architectural changes.
+
+\begin{table}\centering\small
+\resizebox{0.8\columnwidth}{!}{%
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{c|c|c} \hline
+    \multicolumn{1}{c|}{\textbf{Model}} &
+    \multicolumn{2}{c}{\textbf{Power Balance Residual}} \\ \hline
+    &
+    \textbf{Active [MW]} &
+    \textbf{Reactive [MVar]} \\ \hline
+    \textbf{\genco Tiny}
+    & \textbf{1.1 \scriptsize $\pm$ 0.3}
+    & \textbf{0.5 \scriptsize $\pm$ 0.2} \\
+    GRIT-HQ
+    & 3.87 \scriptsize $\pm$ 0.02
+    & 4.03 \scriptsize $\pm$ 0.44 \\
+    DC-PF
+    & 2.89
+    & --- \\
+    \rowcolor[gray]{0.92}
+    AC-PF
+    & 2.94e-9
+    & 1.81e-9 \\ \hline
+\end{tabular}}
+\caption{Mean active and reactive power-balance residuals on the synthetic HQ1200 dataset.
+Errors denote standard deviation over three seeds.
+Bold values indicate the best learning-based method.}
+\label{tab:hq1200_results}
+\end{table}
+
+\subsubsection{Fine-tuning on real SCADA data}
+\label{subsubsec:hq_scada}
+
+Next, we explore whether \genco can perform well on real HQ data under limited training on SCADA data.
+Starting from the HQ1200 pretrained checkpoint of \cref{subsubsec:hq_synthetic}, we fine-tune on real SCADA scenarios using $N\in\{100,10^3,10^4,1.5\times10^4\}$ labeled training samples, and compare against \genco solvers trained from scratch on the same training samples. For the evaluation, we use a held-out set of 1{,}702 SCADA samples. In addition, we report the zero-shot performance of the pretrained \genco model, without SCADA fine-tuning, as well as the performance of DC-PF on the same evaluation set. All settings are repeated over three seeds; we report mean active power-balance residuals with sample standard deviation.\\
+
+\cref{fig:hq_scada_finetune} shows active power-balance residuals versus the number of SCADA training scenarios. Zero-shot transfer remains poor, indicating that synthetic pretraining alone is insufficient for the model to perform well on real SCADA data. Fine-tuning rapidly closes this gap: with 15,000 training samples, fine-tuning achieves $3.36\pm0.05$~MW, an order of magnitude below training from scratch ($21.1\pm8.4$~MW) and approaching the DC-PF residual of $2.90$~MW on the same evaluation set. We note that the continued improvement with increasing amounts of SCADA samples also suggests that further real-data fine-tuning could close the remaining gap. Training from scratch also exhibits substantially higher variance at low sample counts. These results show that synthetic pretraining on HQ1200 enables data-efficient adaptation of \genco to real SCADA measurements.\\
+
+\begin{figure}
+\centering
+\includegraphics[width=0.85\columnwidth]{figures/hq/hq_scratch_vs_finetune_active_residuals.pdf}
+\caption{Mean active power-balance residuals on HQ SCADA versus number of training scenarios, comparing fine-tuning of the synthetically pretrained model against training from scratch (mean $\pm$ sample std over three seeds).
+The dotted line denotes zero-shot performance of the pretrained model.}
+\label{fig:hq_scada_finetune}
+\end{figure}
+
+\begin{boxH}
+\paragraph{Takeaways.}
+\begin{itemize}
+\item \genco successfully transfers to a real grid and is evaluated on real SCADA data: after fine-tuning on 15,000 Hydro-Québec SCADA samples, it achieves a mean active power-balance residual close to that of DC-PF ($3.36$~MW vs. $2.90$~MW).
+\item Pretraining on synthetic HQ1200 scenarios generated with \datakit enables substantially more data-efficient adaptation to real SCADA measurements, reducing the residual by an order of magnitude relative to training from scratch with the same 15,000 SCADA samples.
+\end{itemize}
+\end{boxH}
+

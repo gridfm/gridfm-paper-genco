@@ -1,0 +1,142 @@
+
+\section{\textit{Supplementary Material for \cref{subsec:pf}: Results -- Power Flow}}
+
+\subsection{Additional Results on \pfdelta}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\columnwidth]{figures/pf_delta/pbl_all_rows_max.pdf}
+\caption{Max power-balance loss (computed across all buses of all samples) for \genco, CANOS-PF, GNS-S, and PFNet across PF$\Delta$ tasks on the IEEE 118-bus system. Error bars in the figure correspond to the standard deviation over three seeds. C2I denotes close-to-infeasible cases at the steady-state stability limit, where classical solvers face challenges~\cite{NEURIPS2025_d000ef56}.}
+    \label{fig:max-pb}
+\end{figure}
+
+\section{\textit{Supplementary Material for \cref{subsec:SE}: Results -- State Estimation}}
+\label{app:se}
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\columnwidth]{figures/se/non_observable.pdf}
+    \caption{Degradation in scenarios where WLS did not converge (at a sparse coverage of $5|\mathcal{N}|$ measurements). The first two panels report, for $V_m$ and $\theta$, the ratio of \genco's error on scenarios where the baseline did not converge to its error on scenarios where it did (rows sweep the outlier probability $p_{\text{outlier}}$). Values near $1$ mean \genco is almost as accurate on the hard, non-converged cases as on the easy ones, i.e.\ it degrades gracefully rather than failing outright; values above $1$ indicate higher error on the hard set. The last panel shows the WLS convergence rate. Columns are the IEEE 14-, 30-, 57-, and 118-bus grids.}
+
+    \label{fig:non-observable}
+\end{figure}
+
+
+\input{appendix_scaling}
+
+
+
+
+
+
+\section{\textit{Supplementary Material for \cref{subsec:generalization}: Results -- Robustness \& Generalization}}
+
+\label{appendix:top}
+
+The percentage of samples below
+absolute active power-balance residual thresholds is shown in \cref{fig:abs_threshold_k10}. It is similar to \cref{fig:threshold_share_relative_k10} but uses absolute thresholds instead of relative ones, and includes buses with zero net injection.\\
+
+The percentage of samples below 1\% residuals as a function of the contingency order is depicted in \cref{fig:rel_threshold_vs_k}.
+
+\begin{figure}[H]
+\centering
+
+\begin{minipage}{0.4\linewidth}
+\centering
+\includegraphics[width=\linewidth]{figures/robustness/threshold_share_absolute_k10.pdf}
+\caption{Percentage of samples below absolute active power-balance residual thresholds at $k=10$ (all buses). \genco again dominates DC-PF across all thresholds.}
+\label{fig:abs_threshold_k10}
+\end{minipage}
+\hspace{3cm}
+\begin{minipage}{0.4\linewidth}
+\centering
+\includegraphics[width=\linewidth]{figures/robustness/below_1pct_threshold_vs_k.pdf}
+\caption{Percentage of samples with relative active power-balance residual below 1\% as a function of contingency order $k$ (excluding zero-injection buses). The fraction decreases with $k$ for both methods, but remains consistently higher for \genco.}
+\label{fig:rel_threshold_vs_k}
+\end{minipage}
+
+\end{figure}
+
+
+\subsection{Residuals at Zero-Net-Injection Buses}
+\label{appendix:zeroinj}
+
+The distribution of bus-level absolute active power-balance residuals at zero-net-injection buses for \genco and DC-PF across $N$-$k$ contingencies with $k=1,\dots,20$ is shown in \cref{fig:zeroinj_boxplot}. Unlike the relative metric in the main text, this view isolates buses for which no normalization by net injection is possible and directly reports the remaining power-balance mismatch in MW.
+
+\cref{fig:zeroinj_abs_threshold_k10} complements this distributional view with the percentage of zero-net-injection buses below practically relevant absolute residual thresholds at $k=10$. 
+
+\begin{figure}[H]
+\centering
+
+\begin{minipage}{0.4\linewidth}
+\centering
+\includegraphics[width=\linewidth]{figures/robustness/boxplot_zero_inj_absolute_residuals.png}
+\caption{Bus-level absolute active power-balance residuals at zero-net-injection buses under $N$-$k$ contingencies ($k=1,\dots,20$). \genco achieves consistently lower residuals than DC-PF across the entire distribution. Whiskers indicate 1.5$\times$IQR.}
+\label{fig:zeroinj_boxplot}
+\end{minipage}
+\hspace{3cm}
+\begin{minipage}{0.4\linewidth}
+\centering
+\includegraphics[width=\linewidth]{figures/robustness/threshold_share_absolute_k10_zero_inj.pdf}
+\caption{Percentage of zero-net-injection buses below absolute active power-balance residual thresholds at $k=10$. \genco consistently achieves a higher fraction of low-residual predictions than DC-PF across all thresholds.}
+\label{fig:zeroinj_abs_threshold_k10}
+\end{minipage}
+
+\end{figure}
+
+\section{Voltage Prediction under Out-of-Limit Operating Conditions}
+\label{appendix:voltage_violations}
+
+Voltage violations are rare in the N-2 dataset, with only $6.9 \times 10^{-4}$\% of buses operating outside the nominal voltage range, i.e., 121 buses out of the 17,424,000 buses in the dataset. \cref{fig:genco_voltage} compares \genco voltage magnitude predictions against AC-PF across the full operating range, including undervoltage ($<0.9$~p.u.) and overvoltage ($>1.1$~p.u.) conditions. \genco remains closely aligned with the reference solution even in these rarely observed regimes.\\
+
+Absolute voltage magnitude errors as a function of the true voltage magnitude are depicted in \cref{fig:voltage_boxplot}. Across all voltage ranges, including out-of-limit conditions, \genco maintains errors below 0.015~p.u. These results suggest that the model generalizes well to voltage violations despite their extreme scarcity in the training data, and does not require dedicated oversampling of such scenarios.
+
+
+\begin{figure}[H]
+\centering
+
+\begin{minipage}{0.4\linewidth}
+\centering
+\includegraphics[width=\linewidth]{figures/robustness/mass_correlation_density_voltage_Texas.pdf}
+\caption{Bus voltage predictions obtained with \genco compared to AC-PF voltages.}
+\label{fig:genco_voltage}
+\end{minipage}
+\hspace{3cm}
+\begin{minipage}{0.4\linewidth}
+\centering
+\includegraphics[width=\linewidth]{figures/robustness/voltage_error_boxplot_by_true_voltage_Texas.pdf}
+\caption{Absolute voltage magnitude prediction error as a function of the true voltage magnitude. $n$ indicates the number of test samples in each bin.}
+\label{fig:voltage_boxplot}
+\end{minipage}
+
+\end{figure}
+
+
+
+\section{\textit{Supplementary Material for \cref{subsec:hq1200}: Results -- Validation on Real Data from the Hydro-Québec Grid}}
+\label{appendix:hqgrit}
+
+\paragraph{Additional details about GRIT-HQ.} GRIT-HQ builds on the GRIT architecture~\cite{ma2023graph}, which combines random-walk-based positional encodings, attention layers that jointly update node and edge representations, and explicit incorporation of node degree information at each layer. We adapt the original model based on a large-scale empirical study over 600,000 scenarios with graph sizes ranging from 24 to 240 nodes, which guided the choice of depth, width, and attention configuration. In this setting, we observe that relative random walk positional encodings (RRWP) provide negligible gains over random walk structural encodings (RWSE). We therefore adopt RWSE in the final model, which reduces memory complexity while preserving linear scaling with graph size. The resulting architecture operates on a homogeneous bus-level graph representation, consistent with the original GRIT formulation.
+
+
+\section{\textit{Supplementary Material for \cref{sec:discussion}: Discussion}}
+\label{appendix:future_work}
+
+\subsection{Future Work to Advance GENCO's Performance}
+To further strengthen \genco's utility, scalable long-range message-passing and attention mechanisms must be explored, and all OPF constraints must be incorporated into the loss at each correction step. For expansion-planning use cases, robustness to additional grid components and to load and generation increases must also be analyzed. All of these perturbations will be included in the next version of \datakit.
+
+\subsection{Future Work to Advance GENCO's Deployment}
+In \cref{subsec:comparison_data_hq}, we successfully validated the realism of synthetic data generated with \datakit against SCADA data from HQ1200 based on the normalized mean feature entropy of the entire grid. In the future, the analysis will be extended to a finer level of granularity, as initial observations from HQ1200 indicate clustered topology changes rather than the uniformly distributed perturbations currently generated by \datakit. Further, analyzing model uncertainty conditioned on specific perturbations opens the door to uncertainty bounds based on conformal prediction, as demonstrated in~\cite{alcantara2026trustworthinesslayerfoundationmodels}.\\
+
+In \cref{subsec:generalization}, we demonstrated \genco's robustness to contingencies of up to $N$-$20$ and out-of-operating-limit scenarios. However, for the most demanding case of entirely unseen grids, even our subgrid-based pre-training strategy (\cref{subsubsec:transfer}) achieved moderate performance, with zero-shot residuals exceeding those of DC solvers. Accordingly, improved training strategies that yield acceptable zero-shot performance will be explored to eliminate the need for model fine-tuning.
+
+\subsection{Future Work to Advance Standardized Development and Benchmarking}
+So far, we have benchmarked \genco's runtime against classical solvers and its accuracy against other neural solvers on \pfdelta and OPFData with limited perturbation diversity. In the future, third-party neural solvers must therefore be onboarded to \graphkit and evaluated on our diverse synthetic \datakit benchmark using the hardware configuration reported in this work. \\
+
+Moreover, residuals and violations must be reported using relative metrics rather than absolute quantities such as MW and MVar. For example, power balance errors must be normalized by the corresponding net injections, and branch flow violations by their thermal limits, as absolute errors can have very different implications depending on the scale of the underlying grid element. Finally, reporting violation rates across multiple thresholds and full error distributions, rather than only averages, will enable more meaningful robustness comparisons.
+
+\section{Code \& Reproducibility}
+
+\graphkit, \genco (implemented in \graphkit), and \datakit continue to evolve beyond this paper, and their latest versions are available on \href{https://github.com/gridfm}{GitHub}. To facilitate reproducibility, all scripts, configuration files, library versions, and trained models used to obtain the results presented in this paper will be made available in the coming weeks on the paper branches of \href{https://github.com/gridfm/gridfm-graphkit/tree/paper}{\graphkit} and \href{https://github.com/gridfm/gridfm-datakit/tree/paper}{\datakit}, and on the \href{https://huggingface.co/gridfm/}{Hugging Face} space. The datasets are already available on Hugging Face.
