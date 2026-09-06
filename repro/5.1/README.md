@@ -37,11 +37,11 @@ Optional, from raw PFΔ JSON: `pfdelta/batch_convert_pfdelta.py` then `pfdelta/b
 
 ## 2. Train
 
-Seeds: `examples/config/HGNS_PF_pfdelta_bs64_seed{1,2,3}.yaml` (`seed` 0 / 42 / 1234). Same YAML for every task; only `--data_path` changes.
+Seeds: `scripts/config/HGNS_PF_pfdelta_bs64_seed{1,2,3}.yaml` (`seed` 0 / 42 / 1234). Same YAML for every task; only `--data_path` changes.
 
 ```bash
 gridfm_graphkit train \
-  --config examples/config/HGNS_PF_pfdelta_bs64_seed1.yaml \
+  --config scripts/config/HGNS_PF_pfdelta_bs64_seed1.yaml \
   --data_path pfdelta_task4.3/case118 \
   --exp_name case118_task4.3 \
   --run_name bs64_same_norm_shuffle_train_paper_seed1
@@ -71,16 +71,16 @@ pip install pandas matplotlib seaborn
 
 That is already included if you install graphkit from this branch (`pip install -e .`). Matplotlib is pulled in by seaborn.
 
-From the `genco-paper-repro-pfdelta` repo root, using `[examples/pfdelta/](https://github.com/gridfm/gridfm-graphkit/tree/genco-paper-repro-pfdelta/examples/pfdelta)`. GENCO cells come from `results/<task>/metrics_summary.csv` (`PBE (Mean, p.u.) latex` / `PBE (Max, p.u.) latex`).
+From the `genco-paper-repro-pfdelta` repo root, using [`scripts/pfdelta/`](https://github.com/gridfm/gridfm-graphkit/tree/genco-paper-repro-pfdelta/scripts/pfdelta). GENCO cells come from `results/<task>/metrics_summary.csv` (`PBE (Mean, p.u.) latex` / `PBE (Max, p.u.) latex`).
 
 ```bash
-python examples/pfdelta/make_latex_tables.py
-python examples/pfdelta/format_table_exponents.py
-python examples/pfdelta/make_pbl_barplots.py --metric mean   # Figure 4
-python examples/pfdelta/make_pbl_barplots.py --metric max    # Figure 18
+python scripts/pfdelta/make_latex_tables.py
+python scripts/pfdelta/format_table_exponents.py
+python scripts/pfdelta/make_pbl_barplots.py --metric mean   # Figure 4
+python scripts/pfdelta/make_pbl_barplots.py --metric max    # Figure 18
 ```
 
-Writes `examples/pfdelta/figures/pbl_all_rows_{mean,max}.pdf` and `examples/pfdelta/table_a_{8,9,10,11}_genco_exponent_fixed.tex`.
+Writes `scripts/pfdelta/figures/pbl_all_rows_{mean,max}.pdf` and `scripts/pfdelta/table_a_{8,9,10,11}_genco_exponent_fixed.tex`.
 
 Table 4 is `table_a_10_genco_exponent_fixed.tex` (Task 3.1). The paper file `GENCO/paper/figures/pf_delta/pf_delta_a_10.tex` is the same numbers with `\genco`, `GNS-S`, and the published caption.
 
@@ -92,6 +92,6 @@ Facts:
 
 - Paper checkpoints and MLflow runs live on a **cluster**, not in git or Hugging Face.
 - Graphkit helper with the old cluster layout: `generate_eval_commands.py` on `genco-paper-repro-pfdelta` (`MLFLOW_BASE=/dccstor/gridfm/mlflow_alban_pfdelta`, weights `artifacts/model/best_model_state_dict.epoch_99.pt`, run names `bs64_same_norm_shuffle_train_paper_seed{1,2,3}`).
-- `--config` is `examples/config/HGNS_PF_pfdelta_bs64_seed{1,2,3}.yaml`; `--data_path` is the HF task’s `case118/` folder.
+- `--config` is `scripts/config/HGNS_PF_pfdelta_bs64_seed{1,2,3}.yaml`; `--data_path` is the HF task’s `case118/` folder.
 - Do not document job launchers. One `evaluate` example plus where the `.pt` files are is enough.
 
