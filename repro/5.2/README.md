@@ -1,83 +1,107 @@
-# Reproduce §5.2 (Optimal Power Flow on OPFData)
+# Reproduce GENCO §5.2 (Optimal Power Flow on OPFData)
 
-Table 5 (`tab:opf_results`): GENCO Base vs HH-MPNN on six OPFData grids.
+This covers **Table 5**.
 
-**Code**
+## 1. Table results
 
-- Train / eval / table: [gridfm-graphkit](https://github.com/gridfm/gridfm-graphkit/tree/genco-paper-repro) `genco-paper-repro` (`scripts/opfdata/`)
-- Optional conversion from raw OPFData JSON: [gridfm-datakit](https://github.com/gridfm/gridfm-datakit/tree/genco-paper-repro) `opf_data/batch_convert.py`
+The GENCO numbers used in the paper are already on the following branch, one CSV per grid and seed:
 
-HH-MPNN cells are taken from Arowolo et al. and are hardcoded in `make_table5.py`. They are not retrained here.
+[https://github.com/gridfm/gridfm-graphkit/tree/genco-paper-repro/scripts/opfdata/results](https://github.com/gridfm/gridfm-graphkit/tree/genco-paper-repro/scripts/opfdata/results)
 
-Pipeline: download converted OPFData + paper splits + checkpoints → `gridfm_graphkit evaluate --batch_size 512` (or train from the same YAMLs) → `make_table5.py` fills GENCO rows from `scripts/opfdata/results/*/seed*/metrics.csv`.
+Look at `scripts/opfdata/results/<grid>/seed{42,3,17}/metrics.csv`. **Table 5** averages those three seeds.
 
-## 1. Data
+HH-MPNN numbers are taken from Arowolo et al. (on the same splits).
 
-Converted N-1 OPFData parquet (300k scenarios per grid). The HH-MPNN 90/5/5 splits are **not** in these datasets; they live next to the checkpoints.
+## 2. Data
 
-| Grid | Hugging Face |
-| --- | --- |
-| IEEE 14 | [gridfm/opfdata_case14_ieee](https://huggingface.co/datasets/gridfm/opfdata_case14_ieee) |
-| IEEE 30 | [gridfm/opfdata_case30_ieee](https://huggingface.co/datasets/gridfm/opfdata_case30_ieee) |
-| IEEE 57 | [gridfm/opfdata_case57_ieee](https://huggingface.co/datasets/gridfm/opfdata_case57_ieee) |
-| IEEE 118 | [gridfm/opfdata_case118_ieee](https://huggingface.co/datasets/gridfm/opfdata_case118_ieee) |
-| GOC 500 | [gridfm/opfdata_case500_goc](https://huggingface.co/datasets/gridfm/opfdata_case500_goc) |
-| GOC 2000 | [gridfm/opfdata_case2000_goc](https://huggingface.co/datasets/gridfm/opfdata_case2000_goc) |
+The original OPFData files are JSON. We converted them to parquet with `gridfm-datakit` `genco-paper-repro`:
+
+1. [`opf_data/batch_convert.py`](https://github.com/gridfm/gridfm-datakit/blob/genco-paper-repro/opf_data/batch_convert.py) — JSON → parquet
+
+You do not need to re-run that. The converted datasets are here:
+
+| Grid | Hugging Face | `network` folder |
+| --- | --- | --- |
+| IEEE 14 | [gridfm/opfdata_case14_ieee](https://huggingface.co/datasets/gridfm/opfdata_case14_ieee) | `case14_ieee` |
+| IEEE 30 | [gridfm/opfdata_case30_ieee](https://huggingface.co/datasets/gridfm/opfdata_case30_ieee) | `case30_ieee` |
+| IEEE 57 | [gridfm/opfdata_case57_ieee](https://huggingface.co/datasets/gridfm/opfdata_case57_ieee) | `case57_ieee` |
+| IEEE 118 | [gridfm/opfdata_case118_ieee](https://huggingface.co/datasets/gridfm/opfdata_case118_ieee) | `case118_ieee` |
+| GOC 500 | [gridfm/opfdata_case500_goc](https://huggingface.co/datasets/gridfm/opfdata_case500_goc) | `case500_goc` |
+| GOC 2000 | [gridfm/opfdata_case2000_goc](https://huggingface.co/datasets/gridfm/opfdata_case2000_goc) | `case2000_goc` |
+
+Graphkit loads `{data_path}/{network}/raw/*.parquet`. Download into that layout:
 
 ```bash
 pip install "huggingface_hub[cli]"
-hf download gridfm/opfdata_case118_ieee --repo-type dataset --local-dir opfdata_case118_ieee
+mkdir -p data/case118_ieee/raw
+hf download gridfm/opfdata_case118_ieee --repo-type dataset --local-dir data/case118_ieee/raw
+```
+
+The HH-MPNN 90/5/5 splits (270k / 15k / 15k) are **not** in those datasets. They live next to the checkpoints:
+
+```bash
 hf download gridfm/genco-opfdata-base --include "splits/*" --local-dir genco-opfdata-base
 mkdir -p scripts/opfdata/splits
 cp genco-opfdata-base/splits/*.pt scripts/opfdata/splits/
 ```
 
-Configs expect `split_from_existing_files: scripts/opfdata/splits/` and must be run from the graphkit repo root.
+Same pattern for the other grids (`data/case14_ieee/raw`, …). Then `--data_path data`.
 
-## 2. Checkpoints
+## 3. Training and checkpoints
 
-Eighteen GENCO Base weights (seeds **42 / 3 / 17**) plus normalizer stats and per-run `metrics.csv`: [gridfm/genco-opfdata-base](https://huggingface.co/gridfm/genco-opfdata-base).
+Use this graphkit branch and these configs. The paper results were obtained with `genco-paper-repro`; we only guarantee the same numbers on this branch, because `main` is under active development.
 
-```bash
-hf download gridfm/genco-opfdata-base --include "case118_ieee/seed42/**" --local-dir genco-opfdata-base
-```
-
-`default` in the YAML filenames is seed 42. IEEE 14/30/118 seed-42 runs used `data.workers: 16` (logged); later seeds on those grids used 32. That only affects dataloader workers, not architecture or losses.
-
-## 3. Train
-
-YAML per grid and seed: `scripts/opfdata/configs/HGNSQ_penalty_11_OPFData_case{14,30,57,118,500,2000}_{default,3,17}.yaml`.
+- Branch: [`genco-paper-repro`](https://github.com/gridfm/gridfm-graphkit/tree/genco-paper-repro)
+- Configs: [`HGNSQ_penalty_11_OPFData_case{14,30,57,118,500,2000}_{default,3,17}.yaml`](https://github.com/gridfm/gridfm-graphkit/tree/genco-paper-repro/scripts/opfdata/configs) (`default` is seed `42`; the others are seeds `3` and `17`)
 
 ```bash
+git clone -b genco-paper-repro https://github.com/gridfm/gridfm-graphkit.git
+cd gridfm-graphkit
+pip install -e .
+
 gridfm_graphkit train \
   --config scripts/opfdata/configs/HGNSQ_penalty_11_OPFData_case118_default.yaml \
-  --data_path opfdata_case118_ieee \
+  --data_path data \
   --exp_name HGNSQ_penalty_11_OPFData_case118_default
 ```
 
-Batch size in the YAML is 64 (IEEE), 16 (GOC 500), or 8 (GOC 2000).
+Repeat for seeds 3 and 17 (`..._case118_3.yaml`, `..._case118_17.yaml`) and the other grids. Batch size in the YAML is 64 (IEEE), 16 (GOC 500), or 8 (GOC 2000).
 
-## 4. Eval
+**Checkpoints:** [gridfm/genco-opfdata-base](https://huggingface.co/gridfm/genco-opfdata-base)
 
-There is no separate eval YAML. Reuse the train config and override batch size. `genco-paper-repro` implements `evaluate --batch_size`. Paper evals used 512.
+Weights: `<grid>/seed{42,3,17}/best_model_state_dict.pt` plus `normalizer_stats.pt`. These come from the **training** MLflow runs.
+
+The training and eval runs are in the same repo under [`mlflow/`](https://huggingface.co/gridfm/genco-opfdata-base/tree/main/mlflow) (`mlflow/train/<grid>/seed*/` and `mlflow/eval/`). Table 5 uses the eval-run test metrics.
+
+You can reuse these checkpoints (see below). Evaluating them with `--batch_size 512` matches the committed CSVs to numerical noise.
+
+## 4. Reusing the saved model
+
+There is no separate eval YAML. Reuse the train config. Paper evals used batch size 512.
 
 ```bash
+hf download gridfm/genco-opfdata-base --include "case118_ieee/seed42/**" --local-dir genco-opfdata-base
+
 gridfm_graphkit evaluate \
   --config scripts/opfdata/configs/HGNSQ_penalty_11_OPFData_case118_default.yaml \
-  --data_path opfdata_case118_ieee \
+  --data_path data \
   --model_path genco-opfdata-base/case118_ieee/seed42/best_model_state_dict.pt \
   --normalizer_stats genco-opfdata-base/case118_ieee/seed42/normalizer_stats.pt \
   --batch_size 512
 ```
 
-Repeat for seeds 3/17 (`..._case118_3.yaml`, `..._case118_17.yaml`) and the other grids.
+Repeat for seeds 3/17 and the other grids.
 
 ## 5. Table 5
 
-Committed eval scalars are already under `scripts/opfdata/results/<grid>/seed<seed>/metrics.csv`. From the graphkit repo root:
+From the graphkit repo root (`pip install -e .` already pulls in pandas):
 
 ```bash
 python scripts/opfdata/make_table5.py
 ```
 
-Writes `scripts/opfdata/table5_genco.tex`. GENCO means and stds match the published Table 5 (2-decimal gap; scientific elsewhere). HH-MPNN is hardcoded. One cosmetic difference vs the paper file: IEEE 30 \(S_{ij}(-)\) bolds HH-MPNN (3.00e-4) rather than GENCO, because that cell is strictly smaller.
+GENCO cells come from `scripts/opfdata/results/<grid>/seed*/metrics.csv`. HH-MPNN is hardcoded. Output:
+
+- `scripts/opfdata/table5_genco.tex`
+
+The paper file `GENCO/paper/figures/opf/opf_ola.tex` is the same numbers. One cosmetic difference: IEEE 30 \(S_{ij}(-)\) bolds HH-MPNN (3.00e-4) rather than GENCO, because that cell is strictly smaller.
