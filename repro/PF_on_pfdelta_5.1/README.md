@@ -16,37 +16,33 @@ PFNet, CANOS-PF, GNS-S, and Newton–Raphson numbers are taken from PFΔ (on the
 
 The original PFΔ files are JSON power-flow solutions. We converted them to parquet and split them into the paper tasks with `gridfm-datakit` `genco-paper-repro`:
 
-1. `[pfdelta/batch_convert_pfdelta.py](https://github.com/gridfm/gridfm-datakit/blob/genco-paper-repro/pfdelta/batch_convert_pfdelta.py)` — JSON → parquet
-2. `[pfdelta/build_task_splits_from_data_processed.py](https://github.com/gridfm/gridfm-datakit/blob/genco-paper-repro/pfdelta/build_task_splits_from_data_processed.py)` — train / val / test splits per task
+1. [`pfdelta/batch_convert_pfdelta.py`](https://github.com/gridfm/gridfm-datakit/blob/genco-paper-repro/pfdelta/batch_convert_pfdelta.py) — JSON → parquet
+2. [`pfdelta/build_task_splits_from_data_processed.py`](https://github.com/gridfm/gridfm-datakit/blob/genco-paper-repro/pfdelta/build_task_splits_from_data_processed.py) — train / val / test splits per task
 
 You do not need to re-run that. The converted, split datasets are here:
 
-
-| Paper task | Hugging Face                                                                     |
-| ---------- | -------------------------------------------------------------------------------- |
-| 1.1        | [gridfm/pfdelta_task1.1](https://huggingface.co/datasets/gridfm/pfdelta_task1.1) |
-| 1.2        | [gridfm/pfdelta_task1.2](https://huggingface.co/datasets/gridfm/pfdelta_task1.2) |
-| 1.3 / 2.1  | [gridfm/pfdelta_task1.3](https://huggingface.co/datasets/gridfm/pfdelta_task1.3) |
-| 2.3        | [gridfm/pfdelta_task2.3](https://huggingface.co/datasets/gridfm/pfdelta_task2.3) |
-| 3.1        | [gridfm/pfdelta_task3.1](https://huggingface.co/datasets/gridfm/pfdelta_task3.1) |
-| 4.1        | [gridfm/pfdelta_task4.1](https://huggingface.co/datasets/gridfm/pfdelta_task4.1) |
-| 4.2        | [gridfm/pfdelta_task4.2](https://huggingface.co/datasets/gridfm/pfdelta_task4.2) |
-| 4.3        | [gridfm/pfdelta_task4.3](https://huggingface.co/datasets/gridfm/pfdelta_task4.3) |
-
+| Paper task | Hugging Face |
+| --- | --- |
+| 1.1 | [gridfm/pfdelta_task1.1](https://huggingface.co/datasets/gridfm/pfdelta_task1.1) |
+| 1.2 | [gridfm/pfdelta_task1.2](https://huggingface.co/datasets/gridfm/pfdelta_task1.2) |
+| 1.3 / 2.1 | [gridfm/pfdelta_task1.3](https://huggingface.co/datasets/gridfm/pfdelta_task1.3) |
+| 2.3 | [gridfm/pfdelta_task2.3](https://huggingface.co/datasets/gridfm/pfdelta_task2.3) |
+| 3.1 | [gridfm/pfdelta_task3.1](https://huggingface.co/datasets/gridfm/pfdelta_task3.1) |
+| 4.1 | [gridfm/pfdelta_task4.1](https://huggingface.co/datasets/gridfm/pfdelta_task4.1) |
+| 4.2 | [gridfm/pfdelta_task4.2](https://huggingface.co/datasets/gridfm/pfdelta_task4.2) |
+| 4.3 | [gridfm/pfdelta_task4.3](https://huggingface.co/datasets/gridfm/pfdelta_task4.3) |
 
 ```bash
 pip install "huggingface_hub[cli]"
 hf download gridfm/pfdelta_task4.3 --repo-type dataset --local-dir pfdelta_task4.3
 ```
 
-
-
 ## 3. Training and checkpoints
 
 Use this graphkit branch and these configs:
 
-- Branch: `[genco-paper-repro-pfdelta](https://github.com/gridfm/gridfm-graphkit/tree/genco-paper-repro-pfdelta)`
-- Configs: `[HGNS_PF_pfdelta_bs64_seed{1,2,3}.yaml](https://github.com/gridfm/gridfm-graphkit/tree/genco-paper-repro-pfdelta/scripts/pfdelta/config)` (seeds `0` / `42` / `1234`)
+- Branch: [`genco-paper-repro-pfdelta`](https://github.com/gridfm/gridfm-graphkit/tree/genco-paper-repro-pfdelta)
+- Configs: [`HGNS_PF_pfdelta_bs64_seed{1,2,3}.yaml`](https://github.com/gridfm/gridfm-graphkit/tree/genco-paper-repro-pfdelta/scripts/pfdelta/config) (seeds `0` / `42` / `1234`)
 
 Same YAML for every task; only `--data_path` changes.
 
