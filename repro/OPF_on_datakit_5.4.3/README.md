@@ -10,7 +10,7 @@ The GENCO numbers used in the table are on this branch:
 
 [https://github.com/gridfm/gridfm-graphkit/tree/genco-paper-repro/scripts/datakit_opf/results](https://github.com/gridfm/gridfm-graphkit/tree/genco-paper-repro/scripts/datakit_opf/results)
 
-`scripts/datakit_opf/results/sheet2_from_experiments.csv` is one row per grid, size, and seed, plus the mean and sample standard deviation. `sheet2_from_experiments_mean_std_only.csv` is the aggregated sheet the table is built from.
+`scripts/datakit_opf/results/opf_scaling_combined.csv` is one row per grid, size, and seed, plus the mean and sample standard deviation. `opf_scaling_aggregated.csv` is the aggregated sheet the table is built from.
 
 In that CSV, `seed1` / `seed2` are YAML seeds `0` / `1`.
 
@@ -88,4 +88,4 @@ From the graphkit repo root (`pip install -e .` already pulls in pandas):
 python scripts/datakit_opf/build_opf_scaling_table.py
 ```
 
-The script reads `scripts/datakit_opf/results/sheet2_from_experiments_mean_std_only.csv` and writes `scripts/datakit_opf/opf_scaling_table.tex`.
+The script reads `scripts/datakit_opf/results/opf_scaling_aggregated.csv` and writes `scripts/datakit_opf/opf_scaling_table.tex`.
