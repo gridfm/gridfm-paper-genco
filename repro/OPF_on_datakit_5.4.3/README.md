@@ -60,7 +60,7 @@ Repeat for the other configs. Each YAML sets the grid, hidden size, and seed.
 
 **Checkpoints:** [gridfm/genco-opf-datakit-base](https://huggingface.co/gridfm/genco-opf-datakit-base)
 
-Weights: `<network>/{base,small}/seed<seed>/last.pt` plus `normalizer_stats.pt`. The table was scored on the last-epoch weights (`last.pt`, extracted from Lightning `last.ckpt`). `best_model_state_dict.pt` in the same folder is the best-validation snapshot and is not the file that produced the table. The training YAML for that run sits in the same folder.
+Weights: `<network>/{base,small}/seed<seed>/last.pt` plus `normalizer_stats.pt`, except GOC 2000 seed 0 (Base and Small), which uses `best_model_state_dict.pt`. For the other runs the table is the test at the end of training, on the last-epoch weights (`last.pt`, extracted from Lightning `last.ckpt`). GOC 2000 seed 0 was scored by a later `evaluate` of the best-validation snapshot. The training YAML for that run sits in the same folder.
 
 The training runs that match the table are in the same repo under [`mlflow/train/`](https://huggingface.co/gridfm/genco-opf-datakit-base/tree/main/mlflow/train).
 
@@ -78,7 +78,7 @@ gridfm_graphkit evaluate \
   --normalizer_stats genco-opf-datakit-base/case118_ieee/base/seed0/normalizer_stats.pt
 ```
 
-Repeat for the other grids, sizes, and seeds. Pass `last.pt`.
+Repeat for the other grids, sizes, and seeds. Pass `last.pt`, except GOC 2000 seed 0, where the model path is `best_model_state_dict.pt`.
 
 ## 5. Appendix table
 
