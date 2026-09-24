@@ -113,13 +113,13 @@ The amortized per-instance runtime as a function of grid size for AC-OPF, DC-OPF
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{figures/runtime_analysis/runtime_comparison_from_raw_opf.pdf}
-    \caption{Amortized per-instance runtime versus grid size for \genco and PowerModels AC-OPF and DC-OPF solvers. Results are reported for the optimal batch size for \genco and the best worker count for PowerModels. Four-largest-grid scaling exponents are 1.18 for AC-OPF, 1.09 for DC-OPF, and 0.97/0.95/0.94 for \genco Base/Small/Tiny.}
+    \caption{Amortized per-instance runtime versus grid size for \genco and PowerModels AC-OPF and DC-OPF solvers. Results are reported for the optimal batch size for \genco and the best worker count for PowerModels. Four-largest-grid scaling exponents are 1.18 for AC-OPF, 1.09 for DC-OPF, and 0.97/0.97/0.98 for \genco Base/Small/Tiny.}
     \label{fig:gridsize_runtime_opf}
 \end{figure}
 
 
 
-\paragraph{\genco's utility for OPF.} The performance of \genco Small (which offers the best tradeoff between runtime, optimality, and feasibility) across grid sizes is summarized in \cref{tab:opf_selected_genco_tradeoff}. \genco is substantially faster than AC-OPF and DC-OPF on every grid, reaching an $84.5\times$ speedup over AC-OPF on GOC~2,000. It also produces more feasible and cost-effective solutions than DC-OPF, although these gains generally decrease with grid size. Finally, \genco predicts quantities unavailable from DC-OPF, including voltage magnitudes and reactive power setpoints. Overall, \genco offers a compelling alternative to DC-OPF. Detailed optimality and constraint-violation results for \genco Base and Small are reported in \cref{tab:opf_scaling} in the Appendix.\\
+\paragraph{\genco's utility for OPF.} The performance of \genco Small (which offers the best tradeoff between runtime, optimality, and feasibility) across grid sizes is summarized in \cref{tab:opf_selected_genco_tradeoff}. \genco is substantially faster than AC-OPF and DC-OPF on every grid, reaching an $81.1\times$ speedup over AC-OPF on GOC~2,000. It also produces more feasible and cost-effective solutions than DC-OPF, although these gains generally decrease with grid size. Finally, \genco predicts quantities unavailable from DC-OPF, including voltage magnitudes and reactive power setpoints. Overall, \genco offers a compelling alternative to DC-OPF. Detailed optimality and constraint-violation results for \genco Base and Small are reported in \cref{tab:opf_scaling} in the Appendix.\\
 
 
 
@@ -137,12 +137,12 @@ Grid
 & \shortstack{Violation reduction\\vs DC-OPF}
 & \shortstack{Speedup\\vs DC-OPF} \\
 \midrule
-  14 & $16.1\times$ & $55.2\times$ & $86.0\times$ & $4.14\times$ \\
-  30 & $22.9\times$ & $31.8\times$ & $72.4\times$ & $3.99\times$ \\
-  57 & $26.5\times$ & $6.28\times$ & $4.67\times$ & $4.29\times$ \\
- 118 & $48.4\times$ & $2.85\times$ & $2.40\times$ & $4.75\times$ \\
- 500 & $54.3\times$ & $3.20\times$ & $10.3\times$ & $6.40\times$ \\
-2000 & $84.5\times$ & $1.85\times$ & $6.70\times$ & $6.19\times$ \\
+  14 & $15.3\times$ & $55.2\times$ & $86.0\times$ & $3.94\times$ \\
+  30 & $25.1\times$ & $31.8\times$ & $72.4\times$ & $4.38\times$ \\
+  57 & $27.0\times$ & $6.28\times$ & $4.67\times$ & $4.36\times$ \\
+ 118 & $49.1\times$ & $2.85\times$ & $2.40\times$ & $4.81\times$ \\
+ 500 & $57.4\times$ & $3.20\times$ & $10.3\times$ & $6.76\times$ \\
+2000 & $81.1\times$ & $1.85\times$ & $6.70\times$ & $5.94\times$ \\
 \bottomrule
 \end{tabular}
 \caption{Performance scaling summary for \genco Small on Optimal Power Flow; Speedups $>$1 mean faster; optimality and feasibility improvements are ratios of DC-OPF to \genco mean metrics.}

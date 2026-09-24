@@ -1,6 +1,6 @@
 # Reproduce GENCO §5.4.2 (Power Flow on datakit)
 
-This covers the residual-vs-grid-size plot (`fig:gridsize_vs_residuals_pf`).
+This covers the residual-vs-grid-size plot (`fig:gridsize_vs_residuals_pf`). The runtime figures and speedup columns are in [Runtime_5.4.2-3](../Runtime_5.4.2-3/README.md).
 
 GENCO Base / Small / Tiny are trained from scratch on each grid. Hidden size is 48 / 24 / 12.
 

@@ -1,6 +1,6 @@
 # Reproduce GENCO §5.4.3 (Optimal Power Flow on datakit)
 
-This covers the appendix optimality and feasibility table (`tab:opf_scaling`) for GENCO Base and Small. The runtime figure and the speedup columns of the summary table are not included here.
+This covers the appendix optimality and feasibility table (`tab:opf_scaling`) for GENCO Base and Small. The runtime figure and the speedup columns are in [Runtime_5.4.2-3](../Runtime_5.4.2-3/README.md).
 
 GENCO Base / Small are trained from scratch on each grid. Hidden size is 48 / 24.
 
