@@ -61,7 +61,7 @@ Repeat for the other configs. Each YAML sets the grid, hidden size, and seed.
 
 **Checkpoints:** [gridfm/genco-pf-datakit-base](https://huggingface.co/gridfm/genco-pf-datakit-base)
 
-Weights: `<network>/{base,small,tiny}/seed<seed>/best_model_state_dict.pt` plus `normalizer_stats.pt`. These are the weights whose test metrics are in the residual CSV.
+Weights: `<network>/{base,small,tiny}/seed<seed>/best_model_state_dict.pt` plus `normalizer_stats.pt`. These are the best-validation state dicts, not Lightning `last.ckpt`. The residual CSV is the standalone `evaluate` of those files for grids through GOC 500, and the training-run `test()` after restoring that same best checkpoint for GOC 2000 and GOC 10000.
 
 The MLflow runs are in the same repo under [`mlflow/`](https://huggingface.co/gridfm/genco-pf-datakit-base/tree/main/mlflow). For grids through GOC 500 the figure uses `mlflow/eval/`. For GOC 2000 and GOC 10000 it uses `mlflow/train/` (the training run restored the best checkpoint before `test()`).
 
