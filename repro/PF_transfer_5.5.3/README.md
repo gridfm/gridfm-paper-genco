@@ -45,7 +45,13 @@ hf download gridfm/genco-pf-transfer-base --include "pretraining/**" --local-dir
 
 ### Data
 
-Datakit PF samples for `case118_ieee`. Graphkit loads `{data_path}/case118_ieee/raw/*.parquet`. This training parquet is not on Hugging Face.
+Datakit PF samples for `case118_ieee` are [gridfm/pf_small_case118_ieee](https://huggingface.co/datasets/gridfm/pf_small_case118_ieee), in the [finetune_pf_small](https://huggingface.co/collections/gridfm/finetune-pf-small) collection. `n_scenarios.txt` is 219,103. Graphkit loads `{data_path}/case118_ieee/raw/*.parquet`.
+
+```bash
+hf download gridfm/pf_small_case118_ieee --repo-type dataset --local-dir data/case118_ieee/raw
+```
+
+`--data_path` is `data`.
 
 ### Training from scratch and fine-tuning
 
