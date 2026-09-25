@@ -32,12 +32,7 @@ gridfm_graphkit train \
   --data_path data
 ```
 
-Two finished runs are in the model repo. The N-k eval logs do not record which file they loaded.
-
-- `model/training_bs_16/` is the checkpoint named by the eval launcher. Logged batch size 8.
-- `model/training_bs_16_4_gpus/` matches the YAML batch size of 4.
-
-Each folder has `best_model_state_dict.pt` and `normalizer_stats.pt`. Training MLflow params are under `mlflow/train/`.
+The paper checkpoint is `model/training_bs_16/`: `best_model_state_dict.pt` and `normalizer_stats.pt`. That run logged batch size 8 on 2 GPUs. Training MLflow params are under `mlflow/train/training_bs_16/`.
 
 ```bash
 hf download gridfm/genco-pf-contingency-base --include "model/**" --local-dir genco-pf-contingency-base

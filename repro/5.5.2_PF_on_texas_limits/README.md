@@ -20,7 +20,7 @@ hf download gridfm/genco-pf-contingency-base \
 
 ## 3. Checkpoint
 
-Same weights as section 5.5.1. Download and the two run names are in that guide.
+Same weights as section 5.5.1: `model/training_bs_16/`.
 
 ## 4. Light tables
 
