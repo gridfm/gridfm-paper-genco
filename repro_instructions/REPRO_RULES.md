@@ -15,7 +15,7 @@ The public README must be usable by someone with GitHub + Hugging Face only. No 
 | Paper **metric CSVs** (small) | Same GitHub branch (e.g. `scripts/<topic>/results/`) | These are the GENCO numbers in the tables. |
 | Converted / split **datasets** | Hugging Face **dataset** repos | Public if the source license allows. Point the README at these; do not ask people to start from cluster copies. |
 | **Train/val/test index files** if they are not inside the dataset | Same HF **model** repo (e.g. `splits/*.pt`) | OPFData: splits live next to checkpoints, not in `gridfm/opfdata_*`. PFΔ: splits are already in the task datasets. |
-| **Weights that reproduce the tables** | Hugging Face **model** repo (org `gridfm`) | Public once the section is ready. Prefer a name like `gridfm/genco-<topic>-base`. Include `normalizer_stats.pt` if `evaluate` needs it. |
+| **Weights that reproduce the tables** | Hugging Face **model** repo (org `gridfm`) | Public once the section is ready. Name it `gridfm/genco-<topic>` with no `-base` suffix. Include `normalizer_stats.pt` if `evaluate` needs it. |
 | Paper **MLflow runs** that produced those weights and/or CSVs | Same HF model repo, subdirectory `mlflow/` | See “Which MLflow runs” below. No `.pt` inside `mlflow/` if the weights already sit at `<grid-or-task>/seed*/`. |
 | Public guide for that section | Personal GENCO repo `repro_instructions/<section>.md` (and later the paper repo if you copy it) | Short. Links out. Does not duplicate code. Same five-section shape every time. |
 | This conventions file | Personal GENCO repo `repro_instructions/REPRO_RULES.md` | Not for paper readers. |
