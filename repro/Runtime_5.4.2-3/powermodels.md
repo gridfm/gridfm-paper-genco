@@ -59,52 +59,27 @@ Modes: `pf`, `dcpf`, `opf`, `dcopf`. AC-PF uses NLsolve (`--pf-fast`) through ca
 
 ## 3. Re-run the matrix
 
-**Setup 1 (in-memory)** — repeated solves of the corrected base `.m` case. No scenario JSON.
+Optional. `--resume` is on: delete a CSV to recompute that cell.
+
+**Setup 1 (in-memory)** solves the corrected base `.m` case. No scenario JSON.
 
 ```bash
-bash scripts/runtime/pure_julia/run_small_setup1.sh
-bash scripts/runtime/pure_julia/run_large_setup1.sh
+julia --project=scripts/runtime/pure_julia scripts/runtime/pure_julia/run_matrix.jl --scope small --setup setup1
+julia --project=scripts/runtime/pure_julia scripts/runtime/pure_julia/run_matrix.jl --scope large --setup setup1
 ```
 
-**Setup 2 (from-disk)** — parse a datakit scenario per solve. The JSON pool is not in git. The 10,000 corrected files per grid used in the GENCO paper are on Hugging Face: [`gridfm/reproducibility-powermodels-setup2`](https://huggingface.co/datasets/gridfm/reproducibility-powermodels-setup2) (~156 GiB for all seven networks × PF and OPF).
+**Setup 2 (from-disk)** parses one scenario per solve. The 10,000 corrected JSON files per grid are [gridfm/reproducibility-powermodels-setup2](https://huggingface.co/datasets/gridfm/reproducibility-powermodels-setup2).
 
 ```bash
-hf download gridfm/reproducibility-powermodels-setup2 --repo-type dataset \
-    --local-dir /path/to/finetuning
-export GRIDFM_DATA_BASE=/path/to/finetuning   # required; there is no cluster default
-# already scenario_*_corrected.json — skip run_correction.sh
-bash scripts/runtime/pure_julia/run_small_setup2.sh
-bash scripts/runtime/pure_julia/run_large_setup2.sh
-```
-
-Expected layout:
-
-```text
-$GRIDFM_DATA_BASE/{pf,opf}/<network>/powermodels/scenario_*_corrected.json
-```
-
-`GRIDFM_DATA_BASE` must be set for setup 2 and for `run_correction.sh`. At most 10,000 distinct scenarios per network (indices wrap). Stage to node-local `/tmp` before the timed region.
-
-If you convert from parquet yourself instead of using the Hugging Face snapshot:
-
-```bash
+hf download gridfm/reproducibility-powermodels-setup2 --repo-type dataset --local-dir /path/to/finetuning
 export GRIDFM_DATA_BASE=/path/to/finetuning
-python scripts/convert/batch_convert_finetune.py --pf-base "$GRIDFM_DATA_BASE/pf" --opf-base "$GRIDFM_DATA_BASE/opf"
-bash scripts/runtime/pure_julia/run_correction.sh
-bash scripts/runtime/pure_julia/run_small_setup2.sh
-bash scripts/runtime/pure_julia/run_large_setup2.sh
+julia --project=scripts/runtime/pure_julia scripts/runtime/pure_julia/run_matrix.jl --scope small --setup setup2
+julia --project=scripts/runtime/pure_julia scripts/runtime/pure_julia/run_matrix.jl --scope large --setup setup2
 ```
 
-On LSF (84 cores; 256 G small / 960 G large; original hosts were CCC 7xx):
+Layout: `$GRIDFM_DATA_BASE/{pf,opf}/<network>/powermodels/scenario_*_corrected.json`. To build that JSON from parquet instead, run `python scripts/convert/batch_convert_finetune.py` and then `bash scripts/runtime/pure_julia/run_correction.sh`.
 
-```bash
-export GRIDFM_DATA_BASE=/path/to/finetuning   # required for correction and setup 2
-bash scripts/runtime/pure_julia/submit_matrix.sh
-```
-
-`--resume` is always on: delete a CSV first to recompute that cell.
-
-The converter implementation is `gridfm_datakit/convert/`; `scripts/convert/` is the CLI over the finetuning tree.
+On LSF, `bash scripts/runtime/pure_julia/submit_matrix.sh` submits setup 1 and setup 2 (84 cores; 256G small / 960G large).
 
 ## Notes
 

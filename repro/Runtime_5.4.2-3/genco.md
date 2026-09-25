@@ -53,20 +53,16 @@ PowerModels CSVs live at `gridfm-datakit/scripts/runtime/outputs_julia/full_matr
 
 ## 4. Re-run the sweeps
 
-Optional. The committed CSVs are the paper numbers. Four LSF jobs, PF only: in-memory IEEE, in-memory GOC, from-disk IEEE, from-disk GOC. Resources match the paper runs: 1 exclusive H100, 128G, 40 slots, one host, CCC 7xx (`cccxc702`–`716`).
+Optional. The committed CSVs are the paper numbers. Each script writes the directory in the table above. In-memory timing preloads 10,000 samples. From-disk timing cycles those samples through `Dataset.get()`.
 
 ```bash
-bash scripts/runtime/submit_pf_matrix.sh
+python scripts/runtime/run_pf_in_memory_ieee.py --data-path "$GENCO_DATA_PATH"
+python scripts/runtime/run_pf_in_memory_goc.py --data-path "$GENCO_DATA_PATH"
+python scripts/runtime/run_pf_from_disk_ieee.py --data-path "$GENCO_DATA_PATH"
+python scripts/runtime/run_pf_from_disk_goc.py --data-path "$GENCO_DATA_PATH"
 ```
 
-| Job name | Launcher | Paper job |
-|----------|----------|-----------|
-| `genco_pf_in_memory_ieee` | `run_pf_in_memory_ieee.py` | 954945 `matrix_aligned_ram_small` |
-| `genco_pf_in_memory_goc` | `run_pf_in_memory_goc.py` | 954946 `matrix_aligned_ram_large` |
-| `genco_pf_from_disk_ieee` | `run_pf_from_disk_ieee.py` | 954947 `matrix_aligned_get_small` |
-| `genco_pf_from_disk_goc` | `run_pf_from_disk_goc.py` | 954948 `matrix_aligned_get_large` |
-
-Each launcher writes the directory in the table above. In-memory timing preloads 10,000 samples. From-disk timing cycles those 10,000 samples through `Dataset.get()`. Compile mode is `reduce-overhead`, with 20 warmup batches and 32 loader workers.
+On LSF, `bash scripts/runtime/submit_pf_matrix.sh` submits those four scripts (1 exclusive H100, 128G, 40 slots).
 
 ## 5. Figures and tables
 

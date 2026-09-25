@@ -17,7 +17,15 @@ hf download gridfm/reproducibility-genco-pf-pretraining --repo-type dataset --lo
 mv data_pretrain/casefiles casefiles
 ```
 
-`--data_path` is `data_pretrain`. Move `casefiles/` out before training. Graphkit treats every top-level directory as a grid, so `casefiles/` would enter the draw. To rebuild the scenarios from the `.m` files, use [`launch_pretraining_data_gen_pf.py`](https://github.com/gridfm/gridfm-datakit/blob/genco-paper-repro/scripts/data_gen/launcher/pretraining/launch_pretraining_data_gen_pf.py) on datakit `genco-paper-repro`.
+`--data_path` is `data_pretrain`. Move `casefiles/` out before training. Graphkit treats every top-level directory as a grid, so `casefiles/` would enter the draw.
+
+To rebuild scenarios from a `.m` file, on datakit `genco-paper-repro`:
+
+```bash
+gridfm_datakit generate path/to/grid.yaml
+```
+
+On LSF, [`launch_pretraining_data_gen_pf.py`](https://github.com/gridfm/gridfm-datakit/blob/genco-paper-repro/scripts/data_gen/launcher/pretraining/launch_pretraining_data_gen_pf.py) submits that command once per grid (16G, 20 slots).
 
 ### Training
 
