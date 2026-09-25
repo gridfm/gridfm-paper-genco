@@ -18,7 +18,7 @@ Fine-tuning and training from scratch use the datakit PF samples for `case118_ie
 
 The plotted residuals are not the test split of that training run. They are a later `evaluate` on a separate IEEE 118 set of 9,952 scenarios, using [`case118_eval.yaml`](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/transfer_553/configs/case118_eval.yaml) (`test_ratio` 0.99). That evaluation set is not on Hugging Face.
 
-Pretraining used 100 subgrids drawn from PGLib base cases, with 10 held-out subgrids for validation, and about 9,000 PF samples per subgrid. That corpus is not on Hugging Face. The validation and test subgrid names logged with the run were truncated, so the exact 10+10 split is not in this snapshot.
+Pretraining used 100 subgrids, with 10 validation and 10 test subgrids held out. The raw parquet for those 120 grids is [gridfm/reproducibility-genco-pf-pretraining](https://huggingface.co/datasets/gridfm/reproducibility-genco-pf-pretraining). Each grid is `<network>/raw/`. The training grids are listed in `train_networks.txt`. Download that folder and pass it as `--data_path`.
 
 ## 3. Training and checkpoints
 
