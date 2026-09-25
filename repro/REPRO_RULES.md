@@ -1,8 +1,8 @@
 # GENCO reproducibility conventions
 
-This file lives in the personal GENCO repo under `repro/`. It is for whoever writes the next section’s public README (e.g. `repro/PF_on_pfdelta_5.1/README.md`), not for readers of the paper.
+This file lives in the personal GENCO repo under `repro/`. It is for whoever writes the next section’s public README (e.g. `repro/5.1_PF_on_pfdelta/README.md`), not for readers of the paper.
 
-Name each folder `<TASK>_on_<dataset>_<section>` (e.g. `PF_on_pfdelta_5.1`, `OPF_on_opfdata_5.2`, `PF_on_datakit_5.4.2`).
+Name each folder `<section>_<TASK>_on_<dataset>` (e.g. `5.1_PF_on_pfdelta`, `5.2_OPF_on_opfdata`, `5.4.2_PF_on_datakit`).
 
 The public README must be usable by someone with GitHub + Hugging Face only. No cluster, no LSF, no personal paths.
 
