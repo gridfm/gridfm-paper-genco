@@ -125,10 +125,10 @@ Repeat for `scratch/case118_<N>` and `finetune/case118_<N>`.
 
 ## Figure
 
-`scripts/pretraining_advantage/results/transfer_case118.csv` has one row per training size and initialization. `type` is `scratch` or `finetune`. The finetune row with `n_scenarios` 0 is the zero-shot pretrained model. The paper quotes zero-shot 11.07 MW, DC-PF 2.30 MW, 1,000 samples fine-tune 1.93 MW and scratch 3.81 MW, 10,000 samples fine-tune 0.27 MW and scratch 0.92 MW. At 250,000 samples scratch (0.074 MW) is below fine-tune (0.091 MW).
+[transfer_case118.csv](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/pretraining_advantage/results/transfer_case118.csv) has one row per training size and initialization. `type` is `scratch` or `finetune`. The finetune row with `n_scenarios` 0 is the zero-shot pretrained model. The paper quotes zero-shot 11.07 MW, DC-PF 2.30 MW, 1,000 samples fine-tune 1.93 MW and scratch 3.81 MW, 10,000 samples fine-tune 0.27 MW and scratch 0.92 MW. At 250,000 samples scratch (0.074 MW) is below fine-tune (0.091 MW).
 
 ```bash
 python scripts/pretraining_advantage/plot_transfer.py
 ```
 
-The script writes `scripts/pretraining_advantage/figures/scratch_vs_finetune_active_residuals.pdf`.
+[plot_transfer.py](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/pretraining_advantage/plot_transfer.py) writes `scripts/pretraining_advantage/figures/scratch_vs_finetune_active_residuals.pdf`.

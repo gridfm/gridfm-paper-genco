@@ -53,7 +53,12 @@ PowerModels CSVs live at `gridfm-datakit/scripts/runtime/outputs_julia/full_matr
 
 ## 4. Re-run the sweeps
 
-Optional. The committed CSVs are the paper numbers. Each script writes the directory in the table above. In-memory timing preloads 10,000 samples. From-disk timing cycles those samples through `Dataset.get()`.
+Optional. The committed CSVs are the paper numbers. In-memory timing preloads 10,000 samples. From-disk timing cycles those samples through `Dataset.get()`.
+
+- [run_pf_in_memory_ieee.py](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/runtime/run_pf_in_memory_ieee.py)
+- [run_pf_in_memory_goc.py](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/runtime/run_pf_in_memory_goc.py)
+- [run_pf_from_disk_ieee.py](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/runtime/run_pf_from_disk_ieee.py)
+- [run_pf_from_disk_goc.py](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/runtime/run_pf_from_disk_goc.py)
 
 ```bash
 python scripts/runtime/run_pf_in_memory_ieee.py --data-path "$GENCO_DATA_PATH"
@@ -62,7 +67,7 @@ python scripts/runtime/run_pf_from_disk_ieee.py --data-path "$GENCO_DATA_PATH"
 python scripts/runtime/run_pf_from_disk_goc.py --data-path "$GENCO_DATA_PATH"
 ```
 
-On LSF, `bash scripts/runtime/submit_pf_matrix.sh` submits those four scripts (1 exclusive H100, 128G, 40 slots).
+On LSF, [submit_pf_matrix.sh](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/runtime/submit_pf_matrix.sh) submits those four scripts (1 exclusive H100, 128G, 40 slots).
 
 ## 5. Figures and tables
 
@@ -83,4 +88,4 @@ python scripts/runtime/build_opf_tradeoff_table.py --model small
 python scripts/runtime/build_loading_speedups_table.py
 ```
 
-`plot_runtime_comparison_from_raw_opf.py` reads the PF GENCO CSVs and the PowerModels OPF curves. `build_opf_tradeoff_table.py` uses those same GENCO times for the speedup columns and `scripts/datakit_opf/results/opf_scaling_aggregated.csv` for the gap and violation columns.
+[plot_runtime_comparison_from_raw_opf.py](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/runtime/plot_runtime_comparison_from_raw_opf.py) reads the PF GENCO CSVs and the PowerModels OPF curves. [build_opf_tradeoff_table.py](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/runtime/build_opf_tradeoff_table.py) uses those same GENCO times for the speedup columns and `scripts/datakit_opf/results/opf_scaling_aggregated.csv` for the gap and violation columns.

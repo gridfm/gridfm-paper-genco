@@ -61,7 +61,7 @@ Modes: `pf`, `dcpf`, `opf`, `dcopf`. AC-PF uses NLsolve (`--pf-fast`) through ca
 
 Optional. `--resume` is on: delete a CSV to recompute that cell.
 
-**Setup 1 (in-memory)** solves the corrected base `.m` case. No scenario JSON.
+**Setup 1 (in-memory)** solves the corrected base `.m` case with [run_matrix.jl](https://github.com/gridfm/gridfm-datakit/blob/genco-paper-repro/scripts/runtime/pure_julia/run_matrix.jl). No scenario JSON.
 
 ```bash
 julia --project=scripts/runtime/pure_julia scripts/runtime/pure_julia/run_matrix.jl --scope small --setup setup1
@@ -77,9 +77,9 @@ julia --project=scripts/runtime/pure_julia scripts/runtime/pure_julia/run_matrix
 julia --project=scripts/runtime/pure_julia scripts/runtime/pure_julia/run_matrix.jl --scope large --setup setup2
 ```
 
-Layout: `$GRIDFM_DATA_BASE/{pf,opf}/<network>/powermodels/scenario_*_corrected.json`. To build that JSON from parquet instead, run `python scripts/convert/batch_convert_finetune.py` and then `bash scripts/runtime/pure_julia/run_correction.sh`.
+Layout: `$GRIDFM_DATA_BASE/{pf,opf}/<network>/powermodels/scenario_*_corrected.json`. To build that JSON from parquet instead, run [batch_convert_finetune.py](https://github.com/gridfm/gridfm-datakit/blob/genco-paper-repro/scripts/convert/batch_convert_finetune.py) and then [run_correction.sh](https://github.com/gridfm/gridfm-datakit/blob/genco-paper-repro/scripts/runtime/pure_julia/run_correction.sh).
 
-On LSF, `bash scripts/runtime/pure_julia/submit_matrix.sh` submits setup 1 and setup 2 (84 cores; 256G small / 960G large).
+On LSF, [submit_matrix.sh](https://github.com/gridfm/gridfm-datakit/blob/genco-paper-repro/scripts/runtime/pure_julia/submit_matrix.sh) submits setup 1 and setup 2 (84 cores; 256G small / 960G large).
 
 ## Notes
 
