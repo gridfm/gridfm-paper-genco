@@ -51,6 +51,8 @@ Through GOC 500 the seeds are `0`, `1`, and `42`, for Base, Small, and Tiny. GOC
 git clone -b genco-paper-repro https://github.com/gridfm/gridfm-graphkit.git
 cd gridfm-graphkit
 pip install -e .
+TORCH_CUDA_VERSION=$(python -c "import torch; print(torch.__version__ + ('+cpu' if torch.version.cuda is None else ''))")
+pip install torch-scatter -f https://data.pyg.org/whl/torch-${TORCH_CUDA_VERSION}.html
 
 gridfm_graphkit train \
   --config scripts/datakit_pf/configs/case118_ieee_base_seed0.yaml \

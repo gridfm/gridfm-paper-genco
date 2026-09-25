@@ -35,6 +35,8 @@ Clone [`genco-paper-repro-pretraining`](https://github.com/gridfm/gridfm-graphki
 git clone -b genco-paper-repro-pretraining https://github.com/gridfm/gridfm-graphkit.git
 cd gridfm-graphkit
 pip install -e .
+TORCH_CUDA_VERSION=$(python -c "import torch; print(torch.__version__ + ('+cpu' if torch.version.cuda is None else ''))")
+pip install torch-scatter -f https://data.pyg.org/whl/torch-${TORCH_CUDA_VERSION}.html
 
 gridfm_graphkit train \
   --config examples/config/HGNS_PreTrain_subnets_100.yaml \
@@ -79,6 +81,8 @@ Use [`genco-paper-repro`](https://github.com/gridfm/gridfm-graphkit/tree/genco-p
 git clone -b genco-paper-repro https://github.com/gridfm/gridfm-graphkit.git
 cd gridfm-graphkit
 pip install -e .
+TORCH_CUDA_VERSION=$(python -c "import torch; print(torch.__version__ + ('+cpu' if torch.version.cuda is None else ''))")
+pip install torch-scatter -f https://data.pyg.org/whl/torch-${TORCH_CUDA_VERSION}.html
 
 gridfm_graphkit train \
   --config scripts/pretraining_advantage/configs/case118_1000.yaml \

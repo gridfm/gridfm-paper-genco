@@ -13,6 +13,8 @@ git clone -b genco-paper-repro https://github.com/gridfm/gridfm-graphkit.git
 git clone -b genco-paper-repro https://github.com/gridfm/gridfm-datakit.git
 cd gridfm-graphkit
 pip install -e .
+TORCH_CUDA_VERSION=$(python -c "import torch; print(torch.__version__ + ('+cpu' if torch.version.cuda is None else ''))")
+pip install torch-scatter -f https://data.pyg.org/whl/torch-${TORCH_CUDA_VERSION}.html
 ```
 
 Clone the two repos next to each other. A rerun needs a CUDA GPU. Rebuilding the figures does not. Paper jobs used Python 3.12.9, PyTorch 2.8.0+cu128, and CUDA 12.8. The dump of that environment is `scripts/runtime/outputs_genco/environment_versions.md` on the graphkit branch.

@@ -50,6 +50,8 @@ Same YAML for every task; only `--data_path` changes.
 git clone -b genco-paper-repro-pfdelta https://github.com/gridfm/gridfm-graphkit.git
 cd gridfm-graphkit
 pip install -e .
+TORCH_CUDA_VERSION=$(python -c "import torch; print(torch.__version__ + ('+cpu' if torch.version.cuda is None else ''))")
+pip install torch-scatter -f https://data.pyg.org/whl/torch-${TORCH_CUDA_VERSION}.html
 
 gridfm_graphkit train \
   --config scripts/pfdelta/config/HGNS_PF_pfdelta_bs64_seed1.yaml \
