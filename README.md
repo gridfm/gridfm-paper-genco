@@ -3,10 +3,10 @@
 Paper sources and step-by-step guides for reproducing the results of [GENCO — A Unified Neural Solver Embedded in a Development Framework for Steady-State Grid Analysis](https://arxiv.org/abs/2608.09921) (arXiv:2608.09921).
 
 <p align="center">
-  <img src="paper/figures/intro/framework_figure.png" alt="Figure 1. GENCO inside the GridFM framework: graphkit trains and evaluates the neural solver, datakit generates the synthetic data." width="100%">
+  <img src="paper/figures/intro/genco_framework.png" alt="GENCO inside the GridFM framework: graphkit trains and evaluates the neural solver, datakit generates the synthetic data." width="720">
 </p>
 
-Start with the section guides in [`repro/`](repro/).
+Start with the section guides in [`repro_instructions/`](repro_instructions/).
 
 ## Cite
 
