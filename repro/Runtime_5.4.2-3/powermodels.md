@@ -25,37 +25,13 @@ Setup 1 also needs the seven corrected `.m` files in `gridfm_datakit/grids/` (tr
 
 ## 2. Read the GENCO paper numbers
 
-They live at `scripts/runtime/outputs_julia/full_matrix/`. Do not edit the 56 CSVs.
+They live at `scripts/runtime/outputs_julia/full_matrix/`. Do not edit the 56 CSVs. `{small,large}/setup1/` is the in-memory sweep. `{small,large}/setup2/` is the from-disk sweep. `wall_at_best_p_*.csv` is derived from those sweeps.
 
-| File | What it is |
-|------|------------|
-| `{small,large}/setup1/benchmark_<grid>_<mode>.csv` | In-memory protocol: worker sweep for AC-PF, DC-PF, AC-OPF, DC-OPF (main scaling figures + appendix worker-count figure) |
-| `{small,large}/setup2/benchmark_<grid>_<mode>.csv` | From-disk protocol: same modes (loading-ratio figure and speedup table) |
-| `wall_at_best_p_setup1.csv` | In-memory protocol: wall time at the best `p` |
-| `wall_at_best_p_setup2.csv` | From-disk protocol: same, independently chosen best `p` |
-| `wall_at_best_p_long.csv` | Long form of both (loading-ratio figure) |
-| `wall_at_best_p.md` | Human-readable best-`p` table |
-| [`environment_versions.md`](https://github.com/gridfm/gridfm-datakit/blob/genco-paper-repro/scripts/runtime/outputs_julia/full_matrix/environment_versions.md) | Julia, PowerModels, Ipopt, MUMPS, threads, and hardware of the original run |
-| [`methodology_parameters.md`](https://github.com/gridfm/gridfm-datakit/blob/genco-paper-repro/scripts/runtime/outputs_julia/full_matrix/methodology_parameters.md) | Shared, GENCO, and PowerModels parameters used for the matrix |
-| [`lsf_job_wall_times.md`](https://github.com/gridfm/gridfm-datakit/blob/genco-paper-repro/scripts/runtime/outputs_julia/full_matrix/lsf_job_wall_times.md) | LSF job IDs, wall, and peak RAM of the four paper jobs |
-
-**Metric.** Amortized per-instance runtime = `pf_elapsed_s / n_pfs`. Best `p` = `argmin` of that ratio. Never use `mean_pf_runtime_s`. Init, compile, and `/tmp` staging are outside `pf_elapsed_s`. The 56 sweep CSVs are the source of truth; the `wall_at_best_p*` files are derived from them.
+Amortized per-instance runtime is `pf_elapsed_s / n_pfs`. Best `p` is the minimum of that ratio. Init, compile, and `/tmp` staging are outside `pf_elapsed_s`.
 
 ```bash
 python scripts/runtime/pure_julia/summarize_wall_at_best_p.py --check
 ```
-
-| Grid | Instances | Scope |
-|------|----------:|-------|
-| case14_ieee | 4,000,000 | small |
-| case30_ieee | 3,000,000 | small |
-| case57_ieee | 2,000,000 | small |
-| case118_ieee | 2,000,000 | small |
-| case500_goc | 500,000 | small |
-| case2000_goc | 50,000 | large |
-| case10000_goc | 10,000 | large |
-
-Modes: `pf`, `dcpf`, `opf`, `dcopf`. AC-PF uses NLsolve (`--pf-fast`) through case500 and Ipopt on case2000/10000. Worker sweep: `p = 24, 40, …, 216` (13 points). Dispatch batch 32 (small, including case500) / 1 (case2000/10000).
 
 ## 3. Re-run the matrix
 

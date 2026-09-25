@@ -34,7 +34,7 @@ export GENCO_DATA_PATH=/path/to/pf
 
 Each `<network>.tar` contains `<network>/processed/data_index_0.pt` through `data_index_9999.pt`. The dataset currently has IEEE 14, 30, 57, 118 and GOC 500 and 2000. `case10000_goc.tar` is not there yet. The committed CSVs already include the GOC 10000 timings.
 
-In-memory jobs preload those 10,000 graphs. From-disk jobs copy them to node-local `/tmp` and load inside `Dataset.get()`. Sample counts timed against that pool match the PowerModels matrix (IEEE 4M/3M/2M/2M, GOC 500k/50k/10k). `GENCO_PYTHON` defaults to `python` on `PATH`.
+In-memory runs preload those 10,000 graphs. From-disk runs copy them to node-local `/tmp` and load inside `Dataset.get()`.
 
 ## 3. Read the paper numbers
 
@@ -89,3 +89,8 @@ python scripts/runtime/build_loading_speedups_table.py
 ```
 
 [plot_runtime_comparison_from_raw_opf.py](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/runtime/plot_runtime_comparison_from_raw_opf.py) reads the PF GENCO CSVs and the PowerModels OPF curves. [build_opf_tradeoff_table.py](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/runtime/build_opf_tradeoff_table.py) uses those same GENCO times for the speedup columns and `scripts/datakit_opf/results/opf_scaling_aggregated.csv` for the gap and violation columns.
+
+## Notes
+
+- Hidden size is 12 / 24 / 48 for tiny / small / base. Compile mode is `reduce-overhead`, with 20 warmup batches and 32 loader workers.
+- Paper environment: Python 3.12.9, PyTorch 2.8.0+cu128, CUDA 12.8, one H100 80GB. Details: [environment_versions.md](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/runtime/outputs_genco/environment_versions.md).
