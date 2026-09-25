@@ -69,8 +69,9 @@ Graphkit loads `{data_path}/{network}/raw/*.parquet` (then writes `processed/` o
 ```bash
 mkdir -p data/case118_ieee/raw
 hf download gridfm/opfdata_case118_ieee --repo-type dataset --local-dir data/case118_ieee/raw
-# then --data_path data
 ```
+
+Put `--data_path` in the train or eval command. Do not add a separate sentence that only restates the flag.
 
 Do not tell people `--data_path opfdata_case118_ieee` unless that folder already contains `case118_ieee/raw/`. First eval from HF parquet rebuilds `processed/` (slow; hundreds of thousands of `.pt` files). Spot-check **this** path, not only cluster data that already has `processed/`.
 
