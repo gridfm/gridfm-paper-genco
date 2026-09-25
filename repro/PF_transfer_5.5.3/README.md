@@ -45,7 +45,7 @@ gridfm_graphkit finetune \
   --model_path path/to/best_model_state_dict.pt
 ```
 
-The checkpoint used for every fine-tune, and for the zero-shot line, is one pretraining run: experiment `pretraining_100_subnets`, run name `1_h_100_32`, file `best_model_state_dict.pt`. Logged settings: task name `PreTraining`, hidden size 48, 12 layers, batch size 32, 300 epochs, seed 200, 100 training networks. `PreTraining` is not a registered task on `genco-paper-repro`, and this checkpoint is not on Hugging Face.
+The checkpoint used for every fine-tune, and for the zero-shot line, is the finished pretraining run `1_h_100_32` (`11d08e25cdb64a0d8c62d6f6179355a6`, `best_model_state_dict.pt`) in experiment `pretraining_100_subnets`. It finished on 18 February 2026. The case 118 fine-tunes that feed the figure were submitted on 24 February 2026, and the 250,000-sample fine-tune on 26 February, by [`launch_train_and_finetune.py`](https://github.com/gridfm/gridfm-graphkit/blob/pretraining_advantage_march_2026/scripts/pretraining_advantage/launch_train_and_finetune.py) on branch [`pretraining_advantage_march_2026`](https://github.com/gridfm/gridfm-graphkit/tree/pretraining_advantage_march_2026). That script sets `--model_path` to this file. A second run with the same name `1_h_100_32` never finished, and `2_h_100_64` is a different checkpoint. Logged settings for the finished run: task name `PreTraining`, hidden size 48, 12 layers, batch size 32, 300 epochs, seed 200, 100 training networks. That task is not registered on `genco-paper-repro`. The checkpoint is not on Hugging Face.
 
 ## 4. Reusing the saved model
 
