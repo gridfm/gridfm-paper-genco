@@ -1,8 +1,8 @@
 # GENCO reproducibility conventions
 
-This file lives in the personal GENCO repo under `repro/`. It is for whoever writes the next section’s public README (e.g. `repro/5.1_PF_on_pfdelta/README.md`), not for readers of the paper.
+This file lives in the personal GENCO repo under `repro_instructions/`. It is for whoever writes the next section’s public guide (e.g. `repro_instructions/5.1_PF_on_pfdelta.md`), not for readers of the paper.
 
-Name each folder `<section>_<TASK>_on_<dataset>` (e.g. `5.1_PF_on_pfdelta`, `5.2_OPF_on_opfdata`, `5.4.2_PF_on_datakit`).
+Name each guide `<section>_<TASK>_on_<dataset>.md` (e.g. `5.1_PF_on_pfdelta.md`, `5.2_OPF_on_opfdata.md`, `5.4.2_PF_on_datakit.md`). One file per section, directly in `repro_instructions/`.
 
 The public README must be usable by someone with GitHub + Hugging Face only. No cluster, no LSF, no personal paths.
 
@@ -17,8 +17,8 @@ The public README must be usable by someone with GitHub + Hugging Face only. No 
 | **Train/val/test index files** if they are not inside the dataset | Same HF **model** repo (e.g. `splits/*.pt`) | OPFData: splits live next to checkpoints, not in `gridfm/opfdata_*`. PFΔ: splits are already in the task datasets. |
 | **Weights that reproduce the tables** | Hugging Face **model** repo (org `gridfm`) | Public once the section is ready. Prefer a name like `gridfm/genco-<topic>-base`. Include `normalizer_stats.pt` if `evaluate` needs it. |
 | Paper **MLflow runs** that produced those weights and/or CSVs | Same HF model repo, subdirectory `mlflow/` | See “Which MLflow runs” below. No `.pt` inside `mlflow/` if the weights already sit at `<grid-or-task>/seed*/`. |
-| Public **README** for that section | Personal GENCO repo `repro/<section>/README.md` (and later the paper repo if you copy it) | Short. Links out. Does not duplicate code. Same five-section shape every time. |
-| This conventions file | Personal GENCO repo `repro/REPRO_RULES.md` | Not for paper readers. |
+| Public guide for that section | Personal GENCO repo `repro_instructions/<section>.md` (and later the paper repo if you copy it) | Short. Links out. Does not duplicate code. Same five-section shape every time. |
+| This conventions file | Personal GENCO repo `repro_instructions/REPRO_RULES.md` | Not for paper readers. |
 
 **Do not put on GitHub**
 
@@ -35,7 +35,7 @@ The public README must be usable by someone with GitHub + Hugging Face only. No 
 - Source code or plot/table scripts (that is GitHub)
 - Cluster paths, launchers, or aggregation notebooks
 
-The HF **model card** must repeat: GitHub branch, YAML configs, which weight files match the paper, `--data_path` layout, and any exception (e.g. PFΔ task 3.1). Keep it aligned with `repro/<section>/README.md`.
+The HF **model card** must repeat: GitHub branch, YAML configs, which weight files match the paper, `--data_path` layout, and any exception (e.g. PFΔ task 3.1). Keep it aligned with `repro_instructions/<section>.md`.
 
 ## Which MLflow runs
 
