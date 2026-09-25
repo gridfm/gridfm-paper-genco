@@ -1,0 +1,72 @@
+# Reproduce GENCO §5.5.1 (topology perturbations)
+
+Bus-level relative active power-balance residuals on the Texas 2000-bus system for N-1 through N-20. GENCO Base is trained only on N-2. DC-PF is the baseline. Section 5.5.2 uses the same checkpoint on the N-2 test set.
+
+## 1. Figure results
+
+[relative_residual_summary_by_k.csv](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/contingency/results/relative_residual_summary_by_k.csv) has one row per contingency order. The paper quotes a 2.85× lower median residual than DC-PF at N-1 and 1.5× at N-20.
+
+## 2. Data
+
+Rebuilding the figures does not need the raw grids. The 20 eval runs are in [gridfm/genco-pf-contingency-base](https://huggingface.co/gridfm/genco-pf-contingency-base) under `mlflow/eval/test_<k>/`: `meta.yaml`, `predictions.parquet`, and `dc_bus_residuals.parquet`.
+
+```bash
+hf download gridfm/genco-pf-contingency-base --include "mlflow/eval/**" --local-dir genco-pf-contingency-base
+```
+
+The training grid and `test_1` through `test_20` raw parquet are not in that repo. A new training or eval run needs those grids locally, laid out as `{data_path}/Texas2k_case1_2016summerpeak/raw/`.
+
+## 3. Training and checkpoints
+
+Branch [`genco-paper-repro`](https://github.com/gridfm/gridfm-graphkit/tree/genco-paper-repro). Train config [`caseTexas_train.yaml`](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/contingency/configs/caseTexas_train.yaml): hidden size 48, seed 0, 200 epochs, batch size 4.
+
+```bash
+git clone -b genco-paper-repro https://github.com/gridfm/gridfm-graphkit.git
+cd gridfm-graphkit
+pip install -e .
+TORCH_CUDA_VERSION=$(python -c "import torch; print(torch.__version__ + ('+cpu' if torch.version.cuda is None else ''))")
+pip install torch-scatter -f https://data.pyg.org/whl/torch-${TORCH_CUDA_VERSION}.html
+
+gridfm_graphkit train \
+  --config scripts/contingency/configs/caseTexas_train.yaml \
+  --data_path data
+```
+
+Two finished runs are in the model repo. The N-k eval logs do not record which file they loaded.
+
+- `model/training_bs_16/` is the checkpoint named by the eval launcher. Logged batch size 8.
+- `model/training_bs_16_4_gpus/` matches the YAML batch size of 4.
+
+Each folder has `best_model_state_dict.pt` and `normalizer_stats.pt`. Training MLflow params are under `mlflow/train/`.
+
+```bash
+hf download gridfm/genco-pf-contingency-base --include "model/**" --local-dir genco-pf-contingency-base
+```
+
+## 4. Reusing the saved model
+
+[`caseTexas_eval.yaml`](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/contingency/configs/caseTexas_eval.yaml) is the config logged by the N-k runs (`test_ratio` 0.99, batch size 256). Point `--data_path` at one `test_<k>` grid. Pass `--compute_dc_ac_metrics` and `--save_output` so the plot script can read the predictions and the DC residuals.
+
+```bash
+gridfm_graphkit evaluate \
+  --config scripts/contingency/configs/caseTexas_eval.yaml \
+  --data_path data/test_2 \
+  --model_path genco-pf-contingency-base/model/training_bs_16/best_model_state_dict.pt \
+  --normalizer_stats genco-pf-contingency-base/model/training_bs_16/normalizer_stats.pt \
+  --compute_dc_ac_metrics \
+  --save_output
+```
+
+Repeat for `test_1` through `test_20`. The published figures use the predictions already in `mlflow/eval/`.
+
+## 5. Figures
+
+[n-k_contingency_plots_relative.py](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/contingency/n-k_contingency_plots_relative.py) reads each `test_<k>` folder.
+
+```bash
+python scripts/contingency/n-k_contingency_plots_relative.py \
+  --mlflow-dir genco-pf-contingency-base/mlflow/eval \
+  --output-dir figures
+```
+
+It writes `boxplot_relative_residuals.png`, `boxplot_zero_inj_absolute_residuals.png`, `threshold_share_relative_k10.pdf`, `threshold_share_absolute_k10.pdf`, `threshold_share_absolute_k10_zero_inj.pdf`, `below_1pct_threshold_vs_k.pdf`, and `relative_residual_summary_by_k.csv`.

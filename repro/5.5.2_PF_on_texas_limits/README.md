@@ -1,0 +1,49 @@
+# Reproduce GENCO §5.5.2 (out-of-limit operating points)
+
+Branch loading and voltage on the Texas N-2 test set, using the same GENCO Base checkpoint as [5.5.1](../5.5.1_PF_on_texas_contingency/README.md). DC-PF is the loading baseline. The paper reports 1,979 overloaded branches out of 28,052,640 (0.0071%).
+
+## 1. Figure results
+
+The loading and voltage figures are rebuilt from the light tables, not from a metrics CSV. The published tables are `data/light/` in [gridfm/genco-pf-contingency-base](https://huggingface.co/gridfm/genco-pf-contingency-base).
+
+## 2. Data
+
+`data/light/` has `filtered_preds_light.parquet`, `filtered_bus_data_light.parquet`, and `filtered_branch_data_light.parquet`. To rebuild them, use the N-2 predictions and the raw bus and branch tables:
+
+```bash
+hf download gridfm/genco-pf-contingency-base \
+  --include "mlflow/eval/test_2/**" --include "data/**" \
+  --local-dir genco-pf-contingency-base
+```
+
+`mlflow/eval/test_2/predictions.parquet` is the eval file. `data/test_2/bus_data.parquet` and `data/test_2/branch_data.parquet` are the raw tables.
+
+## 3. Checkpoint
+
+Same weights as section 5.5.1. Download and the two run names are in that guide.
+
+## 4. Light tables
+
+[create_minimal_contingency_data.py](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/contingency/create_minimal_contingency_data.py) keeps the columns used by the loading plots and the scenarios present in both the predictions and the bus table.
+
+```bash
+python scripts/contingency/create_minimal_contingency_data.py \
+  --predictions genco-pf-contingency-base/mlflow/eval/test_2/predictions.parquet \
+  --bus-data genco-pf-contingency-base/data/test_2/bus_data.parquet \
+  --branch-data genco-pf-contingency-base/data/test_2/branch_data.parquet \
+  --output-dir light
+```
+
+Skip this step to plot the published `data/light/` files directly.
+
+## 5. Figures
+
+[contingency_analysis.py](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/contingency/contingency_analysis.py) uses [contingency_utils.py](https://github.com/gridfm/gridfm-graphkit/blob/genco-paper-repro/scripts/contingency/contingency_utils.py).
+
+```bash
+python scripts/contingency/contingency_analysis.py \
+  --light-dir genco-pf-contingency-base/data/light \
+  --output-dir figures
+```
+
+It writes `mass_correlation_density_Texas_vs_dc.pdf`, `loading_error_boxplot_by_true_loading_Texas.pdf`, `mass_correlation_density_voltage_Texas.pdf`, and `voltage_error_boxplot_by_true_voltage_Texas.pdf`.
