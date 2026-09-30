@@ -12,17 +12,17 @@ This repo is the paper and the reproduction guides. The training code, datasets,
 - [`repro_instructions/`](repro_instructions/) is one guide per result section. A guide says where the numbers are, how the data was built, how the model was trained, how to reuse the saved checkpoint, and which script rebuilds the figure or table.
 
 
-| Guide |
-| --- |
-| [5.1 Power flow on PFΔ](repro_instructions/5.1_PF_on_pfdelta.md) |
-| [5.2 Optimal power flow on OPFData](repro_instructions/5.2_OPF_on_opfdata.md) |
-| [5.4.2 Power flow on datakit](repro_instructions/5.4.2_PF_on_datakit.md) |
-| [5.4.3 Optimal power flow on datakit](repro_instructions/5.4.3_OPF_on_datakit.md) |
-| [5.4 Runtime (GENCO)](repro_instructions/5.4.2-3_Runtime_genco.md) |
-| [5.4 Runtime (PowerModels)](repro_instructions/5.4.2-3_Runtime_powermodels.md) |
-| [5.5.1 Topology perturbations](repro_instructions/5.5.1_PF_on_texas_contingency.md) |
-| [5.5.2 Out-of-limit operating points](repro_instructions/5.5.2_PF_on_texas_limits.md) |
-| [5.5.3 Transfer to unseen grids](repro_instructions/5.5.3_PF_transfer.md) |
+| Guide | Reproduces |
+| --- | --- |
+| [5.1 Power flow on PFΔ](repro_instructions/5.1_PF_on_pfdelta.md) | Results of GENCO on the PFΔ (MIT) dataset against other state-of-the-art power flow solvers |
+| [5.2 Optimal power flow on OPFData](repro_instructions/5.2_OPF_on_opfdata.md) | Results of GENCO on OPFData (Google DeepMind) against HH-MPNN (TU Delft) |
+| [5.4.2 Power flow on datakit](repro_instructions/5.4.2_PF_on_datakit.md) | How accurate GENCO stays as the grid gets larger, for power flow |
+| [5.4.3 Optimal power flow on datakit](repro_instructions/5.4.3_OPF_on_datakit.md) | How accurate GENCO stays as the grid gets larger, for optimal power flow |
+| [5.4 Runtime (GENCO)](repro_instructions/5.4.2-3_Runtime_genco.md) | Runtime experiments of GENCO |
+| [5.4 Runtime (PowerModels)](repro_instructions/5.4.2-3_Runtime_powermodels.md) | Runtime experiments of PowerModels |
+| [5.5.1 Topology perturbations](repro_instructions/5.5.1_PF_on_texas_contingency.md) | GENCO on the Texas grid when lines and generators are taken out |
+| [5.5.2 Out-of-limit operating points](repro_instructions/5.5.2_PF_on_texas_limits.md) | GENCO on overloaded lines and unusual voltages |
+| [5.5.3 Transfer to unseen grids](repro_instructions/5.5.3_PF_transfer.md) | How a pretrained GENCO adapts to a new grid with little data |
 
 ## Cite
 
