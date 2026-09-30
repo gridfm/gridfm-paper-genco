@@ -1,6 +1,6 @@
 # GENCO reproducibility conventions
 
-This file lives in the personal GENCO repo under `repro_instructions/`. It is for whoever writes the next section’s public guide (e.g. `repro_instructions/5.1_PF_on_pfdelta.md`), not for readers of the paper.
+This file is only for people writing the documentation to reproduce the GENCO paper. It is not for people using the repo to reproduce the results.
 
 Name each guide `<section>_<TASK>_on_<dataset>.md` (e.g. `5.1_PF_on_pfdelta.md`, `5.2_OPF_on_opfdata.md`, `5.4.2_PF_on_datakit.md`). One file per section, directly in `repro_instructions/`.
 
@@ -18,7 +18,7 @@ The public README must be usable by someone with GitHub + Hugging Face only. No 
 | **Weights that reproduce the tables** | Hugging Face **model** repo (org `gridfm`) | Public once the section is ready. Name it `gridfm/genco-<topic>` with no `-base` suffix. Include `normalizer_stats.pt` if `evaluate` needs it. |
 | Paper **MLflow runs** that produced those weights and/or CSVs | Same HF model repo, subdirectory `mlflow/` | See “Which MLflow runs” below. No `.pt` inside `mlflow/` if the weights already sit at `<grid-or-task>/seed*/`. |
 | Public guide for that section | Personal GENCO repo `repro_instructions/<section>.md` (and later the paper repo if you copy it) | Short. Links out. Does not duplicate code. Same five-section shape every time. |
-| This conventions file | Personal GENCO repo `repro_instructions/REPRO_RULES.md` | Not for paper readers. |
+| This conventions file | `.claude/claude.md` | For documentation writers only. |
 
 **Do not put on GitHub**
 
@@ -27,7 +27,7 @@ The public README must be usable by someone with GitHub + Hugging Face only. No 
 - Full MLflow trees
 - Cluster harvest dumps (`*runs_table.csv`, `sheet2_*.csv`)
 - Cluster job launchers, `bsub` scripts, `cmd.txt`
-- Scripts with hardcoded `/dccstor/...` or `/u/apu/...` paths
+- Scripts with hardcoded personal or cluster paths
 - Intermediate HTML/PDF dumps that are not the paper figures
 
 **Do not put on Hugging Face**
@@ -60,7 +60,7 @@ Keep it short. Same order every time:
 
 Baselines taken from another paper: say so in one line (not retrained here).
 
-Reason for the snapshot branch: paper numbers were obtained there; `main` moves. Do **not** frame it as “PyPI is missing a flag.”
+Reason for the snapshot branch: paper numbers were obtained there; `main` moves.
 
 ### `--data_path` layout
 
@@ -139,7 +139,7 @@ The branch should contain:
 
 Before you call the branch done, search it for:
 
-- `/dccstor`, `/u/apu`, `bsub`, personal `mlflow_*` paths
+- personal or cluster paths, `bsub`, personal `mlflow_*` paths
 - `generate_eval_commands.py`-style helpers that only work on the cluster
 - Extra seeds/configs that were not in the paper
 - `reproducibility_result.md` or other internal notes
