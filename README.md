@@ -36,7 +36,3 @@ This repo is the paper and the reproduction guides. The training code, datasets,
 }
 ```
 
-## License
-
-The contents of this repository are licensed under [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/).
-
