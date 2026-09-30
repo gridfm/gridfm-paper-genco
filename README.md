@@ -1,8 +1,8 @@
 # GENCO - A Unified Neural Solver Embedded in a Development Framework for Steady-State Grid Analysis
 
-step-by-step guides for reproducing the results of [GENCO — A Unified Neural Solver Embedded in a Development Framework for Steady-State Grid Analysis](https://arxiv.org/abs/2608.09921) (arXiv:2608.09921).
+These are step-by-step guides for reproducing the results of [GENCO — A Unified Neural Solver Embedded in a Development Framework for Steady-State Grid Analysis](https://arxiv.org/abs/2608.09921) (arXiv:2608.09921).
 
-![GENCO inside the GridFM framework: graphkit trains and evaluates the neural solver, datakit generates the synthetic data.](paper/figures/intro/genco_framework.png)
+<img src="paper/figures/intro/genco_framework.png" alt="GENCO inside the GridFM framework: graphkit trains and evaluates the neural solver, datakit generates the synthetic data." width="458">
 
 ## What is in this repo
 
@@ -35,4 +35,8 @@ This repo is the paper and the reproduction guides. The training code, datasets,
   url={https://arxiv.org/abs/2608.09921}
 }
 ```
+
+## License
+
+The contents of this repository are licensed under [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/).
 
