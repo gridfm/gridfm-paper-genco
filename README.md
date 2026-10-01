@@ -26,6 +26,20 @@ This repo is the paper and the reproduction guides. The training code, datasets,
 | [5.5.2 Out-of-limit operating points](repro_instructions/5.5.2_PF_on_texas_limits.md) | GENCO on overloaded lines and unusual voltages |
 | [5.5.3 Transfer to unseen grids](repro_instructions/5.5.3_PF_transfer.md) | How a pretrained GENCO adapts to a new grid with little data |
 
+## Evaluating a checkpoint
+
+Each model card has the evaluate commands for its reproduction branch. Graphkit requires Python 3.10, 3.11, or 3.12. Clone that branch, then install from the graphkit repo:
+
+```bash
+pip install -e .
+pip install huggingface_hub
+TORCH_CUDA_VERSION=$(python -c "import torch; print(torch.__version__ + ('+cpu' if torch.version.cuda is None else ''))")
+pip install torch-scatter -f https://data.pyg.org/whl/torch-${TORCH_CUDA_VERSION}.html
+export MLFLOW_ALLOW_FILE_STORE=true
+```
+
+Current `huggingface_hub` releases warn if the install asks for a `[cli]` extra. The `hf` command is already in the package, so install the package on its own. Keep `MLFLOW_ALLOW_FILE_STORE=true` in the shell that runs `evaluate`. The first `evaluate` writes one graph file per scenario before testing.
+
 ## Cite
 
 ```bibtex
